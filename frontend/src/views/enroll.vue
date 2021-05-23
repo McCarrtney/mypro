@@ -14,8 +14,7 @@
               <el-dropdown-menu slot="dropdown">
                 <!--下拉框的每个条目 --->
                 <el-dropdown-item  
-                  v-for="item in RoleList"  
-                  :command="item"
+                  v-for="item in RoleList"  :command="item"
                 >
                   {{item}}
                 </el-dropdown-item>
@@ -184,7 +183,7 @@ html {
       float: left;
       position: absolute;
       top: 50%;
-      margin-top: -200px;
+      margin-top: -300px;
       left: 25%;
       margin-left: -150px;
       border-radius: 10px;

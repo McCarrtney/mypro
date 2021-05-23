@@ -82,7 +82,7 @@
             this.$router.replace({
               name: "enroll",
             });
-          }, 1500);
+          }, 1000);
       },
     },
   })
