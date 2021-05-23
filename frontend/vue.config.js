@@ -15,7 +15,7 @@ module.exports = {
         //关闭 HOST 检查
         hotOnly: false,
         // hot 和 hotOnly 的区别是在某些模块不支持热更新的情况下，前者会自动刷新页面，后者不会刷新页面，而是在控制台输出热更新失败
-
+		
         //代理
         proxy: {
             //如果你的前端应用和后端 API 服务器没有运行在同一个主机上，你需要在开发环境下将 API 请求代理到 API 服务器
@@ -34,6 +34,9 @@ module.exports = {
                 },
                 //重写路径  需要设置重写的话，要在后面的调用接口前加上/api 来代替target
             },
+        },
+        watchOptions: {
+            poll: true
         },
     },
 };

@@ -5,7 +5,13 @@ import store from "../store";
 import Login from "../views/login.vue";
 import Enroll from "../views/enroll.vue";
 import Doctor from "../views/doctorSystem.vue";
+import User from "../views/userSystem.vue";
 // 1.引入组件login和doctor
+
+import Settings from "../views/settings/index.vue";
+import setInfo from "../views/settings/setinfo.vue";
+import setHealth from "../views/settings/setHealth.vue";
+
 
 import Report from "../views/report/index.vue";
 import checkReport from "../views/report/check_report.vue";
@@ -62,6 +68,26 @@ const routes = [{
         path: "/enroll",
         name: "enroll",
         component: Enroll,
+    },
+    {
+        path: "/user",
+        name: "user",
+        component: User,
+
+        children: [{
+            path: "settings",
+            component: Settings,
+            redirect: "/user/settings/info",
+            children: [{
+                    path: "info",
+                    component: setInfo,
+                },
+                {
+                    path: "health",
+                    component: setHealth,
+                },
+            ],
+        }],
     },
     {
         path: "/doctor",

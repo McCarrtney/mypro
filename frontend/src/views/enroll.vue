@@ -1,14 +1,7 @@
 <template>
   <div id="login">
-    <div class="login_img">
-      <div class="login_tit">
-        <div></div>
-        <div>医疗管理后台</div>
-        <div></div>
-      </div>
-    </div>
-    <div class="login_con">
-      <div class="login_form">
+    <div class="login_con2">
+      <div class="login_form1">
         <h3>账号注册</h3>
         <el-form :label-position="labelPosition" :model="form">
           <el-form-item>
@@ -45,7 +38,7 @@
               v-model="adduser.password"
               placeholder="请输入密码"
             >
-              <i slot="suffix" :class="icon" @click="showpass"></i>
+              <i slot="suffix" :class="icon" @click="showpass" style="margin-right: 10px;margin-top: 18px;"></i>
             </el-input>
           </el-form-item>
           <el-form-item>
@@ -55,14 +48,13 @@
               v-model="adduser.repassword"
               placeholder="请确认密码"
             >
-              <i slot="suffix" :class="icon" @click="showpass"></i>
+              <i slot="suffix" :class="icon" @click="showpass" style="margin-right: 10px;margin-top: 18px;"></i>
             </el-input>
           <!--错误信息 --->
           </el-form-item>
           <h5 v-show="showerror">{{errortext}}</h5>
           <el-form-item>
-            <el-button class="login" round type="primary" @click="enroll"
-              >注册</el-button>
+            <el-button class="login" round type="primary" @click="enroll">注册</el-button>
           </el-form-item>
         </el-form>
         <!-- 使用element-ui定义form表单，在样式上做一些调整 -->
@@ -177,45 +169,67 @@ html {
       }
     }
   }
-  .login_con {
-    width: 94%;
-    height: 80%;
-    background: #f2f3f7;
+  .login_con2 {
+    background: url(../assets/img/bkimg.jpg) right center no-repeat;
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
 
-    .login_form {
-      width: 300px;
-      float: right;
-      margin-right: 200px;
-      margin-top: 100px;
+    .login_form1 {
+      padding: 70px 70px 70px 70px;
+      width: 400px;
+      height: 450px;
+      background-color: white;
+      float: left;
+      position: absolute;
+      top: 50%;
+      margin-top: -200px;
+      left: 25%;
+      margin-left: -150px;
+      border-radius: 10px;
+
+      .login_choice {
+        display: flex;
+      }
 
       h3 {
-        width: 120px;
+        width: 200px;
+        margin-left: 100px;
         font-size: 22px;
         color: #30c0e0;
         border-bottom: 2px solid #30c0e0;
-        padding-bottom: 20px;
+        padding-bottom: 10px;
         margin-bottom: 30px;
         font-weight: normal;
+        text-align:center;
       }
       h4 {
-        font-size: 15px;
-        color: #30c0e0;
+        width: 200px;
+        font-size: 22px;
+        color: gray;
+        border-bottom: 2px solid gray;
+        padding-bottom: 10px;
+        margin-bottom: 30px;
         font-weight: normal;
-        padding-left: 10px;
-        margin-top: -7px;
+        text-align:center;
       }
 
       .el-input__inner {
-        border-radius: 20px;
+        border-radius: 10px;
+        height: 50px;
       }
       .el-button.login {
+        height: 50px;
         width: 50%;
         background: #30c0e0;
         margin-top: 25px;
         border: none;
+        border-radius: 10px;
+        font-size: 18px;
+        margin-left: 25%;
       }
-      .phone {
+      .phone1 {
         width: 100%;
       }
       .getnum {
