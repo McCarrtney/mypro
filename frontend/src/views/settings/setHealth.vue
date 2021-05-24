@@ -1,6 +1,6 @@
 <template>
     <!-- 电子病例分页列表页 -->
-    <div id="cottomsList">
+    <div id="cottomsList1">
       <!-- <el-form :inline="true" :model="formInline">
         <el-form-item>
           <el-input
@@ -28,7 +28,7 @@
   
       <el-table
         :data="healthList"
-        style="width: 100%"
+        style="width: 100%;"
         @selection-change="handleSelectionChange"
         ref="multipleTable"
       >
@@ -102,13 +102,13 @@
       </el-table>
       <!-- 使用element-ui里的表格展示请求到的数据 -->
   
-      <div class="beatch_remove">
+      <div class="beatch_remove1">
         <el-button round type="danger" icon="el-icon-delete" @click="delete_record">删除</el-button>
         <el-button round type="danger" icon="el-icon-circle-plus" @click="add_record">添加</el-button>
       </div>
   
       <el-pagination
-        class="page"
+        class="page1"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage"
@@ -160,7 +160,28 @@
                 bloodpressure: "130/80",
             },
             {
-                date: "2021/5/18",
+                date: "2021/5/20",
+                height: "180",
+                weight: "60",
+                lung: "5000",
+                bloodpressure: "130/80",
+            },
+            {
+                date: "2021/5/21",
+                height: "180",
+                weight: "60",
+                lung: "5000",
+                bloodpressure: "130/80",
+            },
+            {
+                date: "2021/5/22",
+                height: "180",
+                weight: "60",
+                lung: "5000",
+                bloodpressure: "130/80",
+            },
+            {
+                date: "2021/5/23",
                 height: "180",
                 weight: "60",
                 lung: "5000",
@@ -220,11 +241,11 @@
       },
       add_record() {
         let j = {
-                    date: "",
-                    height: "",
-                    weight: "",
-                    lung: "",
-                    bloodpressure: "",
+                    date: "2021/5/22",
+                    height: "180",
+                    weight: "60",
+                    lung: "5000",
+                    bloodpressure: "130/80",
                 };
                 this.healthList.unshift(j);
       },
@@ -268,18 +289,18 @@
   };
   </script>
   <style lang="scss">
-  #cottomsList {
+  #cottomsList1 {
     position: relative;
     .el-input__inner {
       border-radius: 20px;
     }
-    .page {
+    .page1 {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
       bottom: 20px;
     }
-    .beatch_remove {
+    .beatch_remove1 {
       position: absolute;
       bottom: 20px;
       left: 50px;

@@ -40,6 +40,14 @@
               >
                 <!-- 使用 vue-router 的模式，启用该模式会在激活导航时以 index 作为 path 进行路由跳转 -->
                 <!-- 当前激活的菜单选项是当前的路径，保证刷新的时候激活样式不掉 -->
+                <el-menu-item index="/user/registration">
+                  <i class="el-icon-s-custom"></i>
+                  <span slot="title">挂号预约</span>
+                </el-menu-item>
+                <el-menu-item @click="go_talk">
+                  <i class="el-icon-s-custom"></i>
+                  <span slot="title">线上问诊</span>
+                </el-menu-item>
                 <el-menu-item index="/user/settings">
                   <i class="el-icon-user-solid"></i>
                   <span slot="title">个人中心</span>
@@ -67,10 +75,23 @@
 export default {
   data() {
     return {
-      username: "user1",
+      username: "",
     };
   },
+  mounted() {
+      let params = this.$route.query.id
+      let param = decodeURIComponent(params)
+      this.username = JSON.parse(param)
+    },
   methods: {
+    go_talk() {
+      this.$router.push({
+              path: "/user/talk",
+              query: {
+                'id': encodeURIComponent(JSON.stringify(this.username))
+              }
+            });
+    },
     exitLogin() {
       // this.$http("/shiro/logout", "post").then((res) => {
       //   //  console.log(res)
@@ -109,7 +130,7 @@ export default {
   #doc_main {
     width: 100%;
     //  height: 90%;
-    background: url(../assets/img/bg.jpg) center center;
+    background: url(../assets/img/lbk.jpg) center center;
     flex: 1;
   }
 

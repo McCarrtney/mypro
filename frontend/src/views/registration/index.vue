@@ -1,10 +1,10 @@
 <template>
-    <div id="personal1" style="height: 720px;">
-      <div class="nav">
-        <span class="check_tab" @click="go_info" style="margin-right: 10px;">个人信息</span>
+    <div id="personal">
+      <!-- <div class="nav">
+        <span class="check_tab" @click="go_info">个人信息</span>
         <span class="check_tab" @click="go_health">健康数据</span>
-      </div>
-      <router-view class="content1" style="margin-top: 10px;height: 1000px;"> </router-view>
+      </div> -->
+      <router-view class="content"> </router-view>
     </div>
   </template>
   <script>
@@ -13,24 +13,15 @@
       return {};
     },
     methods: {
-      go_info() {
-        this.$router.replace({
-          path: "info",
-        });
-      },
-      go_health() {
-        this.$router.replace({
-          path: "health",
-        });
-      },
+      
     },
   };
   </script>
   <style lang="scss" scoped>
-  #personal1 {
+  #personal {
     display: flex;
     flex-direction: column;
-    height: 1000px;
+    height: 100%;
     .nav {
       height: 42px;
     }
@@ -44,16 +35,15 @@
       text-align: center;
     }
     .check_tab {
-      color: #16dcb8;
-      border-radius: 10px;
-      background-color: white;
+      color: #fff;
+      background: url(../../assets/img/title_bg.png) 0 -8px no-repeat;
       display: inline-block;
       width: 150px;
       height: 42px;
       line-height: 42px;
       text-align: center;
     }
-    .content1 {
+    .content {
       // width: 100%;
       flex: 1;
       background: rgba(255, 255, 255, 0.7);

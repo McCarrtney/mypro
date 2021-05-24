@@ -12,6 +12,12 @@ import Settings from "../views/settings/index.vue";
 import setInfo from "../views/settings/setinfo.vue";
 import setHealth from "../views/settings/setHealth.vue";
 
+import Registration from "../views/registration/index.vue";
+import selectDoctor from "../views/registration/selectDoctor.vue";
+import doctorDetail from "../views/registration/doctorDetail.vue";
+
+import Talk from "../views/talk/index.vue";
+import talkSystem from "../views/talk/talkSystem.vue";
 
 import Report from "../views/report/index.vue";
 import checkReport from "../views/report/check_report.vue";
@@ -87,7 +93,36 @@ const routes = [{
                     component: setHealth,
                 },
             ],
-        }],
+        },
+        {
+            path: "registration",
+            component: Registration,
+            redirect: "/user/registration/selectdoctor",
+            children: [{
+                    path: "selectdoctor",
+                    component: selectDoctor,
+                },
+                {
+                    path: "doctordetail",
+                    component: doctorDetail,
+                },
+            ],
+        },
+        {
+            path: "talk",
+            component: Talk,
+            redirect: "/user/talk/talksystem",
+            children: [{
+                    path: "talksystem",
+                    component: talkSystem,
+                },
+                // {
+                //     path: "doctordetail",
+                //     component: doctorDetail,
+                // },
+            ],
+        }
+        ],
     },
     {
         path: "/doctor",

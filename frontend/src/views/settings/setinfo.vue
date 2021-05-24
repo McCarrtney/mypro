@@ -19,44 +19,59 @@
                 class="demo-ruleForm"
               >
                 <el-form-item label="用户名称" prop="name">
-                  <el-input v-model="detailForm.name"></el-input>
+                  <el-input v-model="prevForm.name" v-if="revamp"></el-input>
+                  <span v-else>{{detailForm.name}}</span>
                 </el-form-item>
                 <el-row class="formInline">
                   <el-col :span="11">
                     <el-form-item label="性别" prop="sex">
-                      <el-select v-model="detailForm.sex" placeholder="性别">
+                      <el-select v-model="prevForm.sex" placeholder="性别"  v-if="revamp">
                         <el-option label="男" value="男"></el-option>
                         <el-option label="女" value="女"></el-option>
                       </el-select>
+                      <span v-else>{{detailForm.sex}}</span>
                     </el-form-item>
                   </el-col>
                 </el-row>
   
                 <el-form-item label="出生日期">
-                  <el-col :span="10">
+                  <el-col :span="10" v-if="revamp">
                     <el-date-picker
                       type="year"
                       placeholder="选择年份"
                       style="width: 100%;"
+                      v-model="prevForm.year"
+                      value-format="yyyy"
                     ></el-date-picker>
+                  </el-col>
+                  <el-col :span="10" v-else>
+                    {{detailForm.year}}
                   </el-col>
                   <el-col :span="2" style="text-align:center;"
                     >&nbsp;&nbsp;年</el-col
                   >
-                  <el-col :span="10">
+                  <el-col :span="10" v-if="revamp">
                     <el-date-picker
                       placeholder="选择月份"
                       style="width: 100%;"
                       type="month"
+                      v-model="prevForm.month"
+                      value-format="mm"
                     ></el-date-picker>
+                  </el-col>
+                  <el-col :span="10" v-else>
+                    {{detailForm.month}}
                   </el-col>
                   <el-col :span="2" style="text-align:center;">&nbsp;月</el-col>
                 </el-form-item>
+
                 <el-form-item label="联系电话" prop="name">
-                  <el-input v-model="detailForm.tel"></el-input>
+                  <el-input v-model="prevForm.tel" v-if="revamp"></el-input>
+                  <span v-else>{{detailForm.tel}}</span>
                 </el-form-item>
                 <el-form-item label="地址" prop="name">
-                  <el-input v-model="detailForm.addr"></el-input>
+                  <el-input v-model="prevForm.addr" v-if="revamp"></el-input>
+                  <span v-else>{{detailForm.addr}}</span>
                 </el-form-item>
               </el-form>
             </el-col>
@@ -69,7 +84,7 @@
           </el-row>
         </el-main>
         <div class="footer" v-if="revamp">
-          <p class="bg16d" plain>保存</p>
+          <p class="bg16d" plain @click="save">保存</p>
           <p>取消</p>
         </div>
       </el-container>
@@ -82,13 +97,28 @@
         detailForm: {
           name: "",
           sex: "",
-          age: "",
+          year: "",
+          month: "",
+          tel: "",
+          addr: "",
+        },
+        prevForm: {
+          name: "",
+          sex: "",
+          year: "",
+          month: "",
           tel: "",
           addr: "",
         },
         revamp: false,
         //   是否修改数据
       };
+    },
+    methods: {
+      save(){
+        this.revamp = false;
+        this.detailForm = this.prevForm;
+      },
     },
   };
   </script>
