@@ -7,6 +7,7 @@ import com.dzqc.cloud.service.UserService;
 import com.dzqc.cloud.util.SendSmsUtil;
 import com.dzqc.cloud.util.VerificationCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -83,6 +84,7 @@ public class UserinfoController {
     }*/
 
     //更新版本 2021/5/22 wxr
+    /*
     @RequestMapping(value = "/test/login", method = RequestMethod.POST)
     public  ResultObject login(@RequestParam(name = "phone", required = true) String phone, @RequestParam(name = "password", required = true) String password, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -100,6 +102,26 @@ public class UserinfoController {
         }
     }
 
+     */
+
+    /**
+     * 用户登陆
+     * @param phone 手机号
+     * @param password 密码
+     * @return
+     */
+
+    @RequestMapping(value = "/security/login", method = RequestMethod.POST)
+    public  ResultObject login(@RequestParam(name = "phone", required = true) String phone, @RequestParam(name = "password", required = true) String password){
+        Userinfo userinfo = userService.selectByPhone(phone);
+        if(userinfo == null){
+            return ResultObject.error("号码未注册，请先完成注册");
+        }else{
+            String token = userService.login(phone, password);
+            return ResultObject.success(token);
+        }
+    }
+
     /**
      * 注册
      * @param phone 手机号
@@ -109,13 +131,15 @@ public class UserinfoController {
     @RequestMapping(value = "/test/register", method = RequestMethod.POST)
     public ResultObject register(@RequestParam(name = "phone", required = true) String phone,
                                  @RequestParam(name = "password", required = true) String password,
-                                 @RequestParam(name = "password", required = true) String username){
+                                 @RequestParam(name = "username", required = true) String username){
         if(userService.selectByPhone(phone)!=null){
             return ResultObject.error("该号码已经注册");
         }else{
             Userinfo userinfo = new Userinfo();
             userinfo.setPhone(phone);
-            userinfo.setPassword(password);
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String bpassword = passwordEncoder.encode(password.trim());
+            userinfo.setPassword(bpassword);
             userinfo.setUsername(username);
             userinfo.setRoleid(2);
             userinfo.setBirthday(new Date(2021-1900, 5-1, 22));
