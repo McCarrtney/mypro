@@ -6,7 +6,7 @@ spring:
       username: root
       password: asdfghjkl0516
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/hospital?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+      url: jdbc:mysql://localhost:3306/hospital?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
 
 ## springboot 和 mybatis整合的配置
 mybatis:
@@ -33,3 +33,8 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
+
+## jwt认证配置
+jwt:
+  expire-interval: 1800
+  authentication-key: zkcjwt1234bbt
