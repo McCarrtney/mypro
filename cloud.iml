@@ -70,6 +70,9 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:5.3.6" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.6" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.3.6" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-websocket:2.2.0.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-messaging:5.3.6" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-websocket:5.3.6" level="project" />
     <orderEntry type="library" name="Maven: org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-jdbc:2.4.5" level="project" />
     <orderEntry type="library" name="Maven: com.zaxxer:HikariCP:3.4.5" level="project" />
