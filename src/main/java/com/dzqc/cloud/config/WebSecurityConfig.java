@@ -31,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/static/**", "/health", "/index.html", "/css/**", "/js/**", "/img/**");
+        web.ignoring().antMatchers("/static/**", "/health", "/index.html", "/css/**", "/js/**", "/img/**", "/user/login", "/user/register", "/doctor/login", "/admin/login");
     }
 
     @Override
@@ -41,11 +41,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(jwtAuthenticationFilter, AnonymousAuthenticationFilter.class)
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .antMatchers("/security/login", "/test/register").permitAll())
+                                .antMatchers("/user/login", "/user/register", "/doctor/login", "/admin/login").permitAll()
+                                .antMatchers("/admin/**").hasRole("ADMIN")
+                                .antMatchers("/user/**").hasRole("USER")
+                                .antMatchers("/doctor/**").hasRole("DOCTOR"))
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .anyRequest().authenticated()
-                ).sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                                .anyRequest().authenticated())
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .exceptionHandling().authenticationEntryPoint(authenticationFailedStrategy).accessDeniedHandler(accessFailedStrategy);
 

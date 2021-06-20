@@ -25,7 +25,7 @@ public class AccessFailedStrategy implements AccessDeniedHandler {
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json; charset=utf-8");
         try (PrintWriter out = response.getWriter()) {
-            out.println(JSON.toJSONString(ResultObject.error("没有访问权限")));
+            out.println(JSON.toJSONString(ResultObject.error("没有访问权限",908)));
         } catch (Exception e0) {
             e0.printStackTrace();
         }

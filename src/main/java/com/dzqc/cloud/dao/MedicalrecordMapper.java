@@ -2,9 +2,11 @@ package com.dzqc.cloud.dao;
 
 import com.dzqc.cloud.entity.Medicalrecord;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface MedicalrecordMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -22,4 +24,7 @@ public interface MedicalrecordMapper {
 
     List<Medicalrecord> selectByAll(@Param("username") String username , @Param("seektime")String seektime);
 
+    List<Medicalrecord> selectByUserID(Integer uid);
+
+    List<Medicalrecord> selectByDoctorID(Integer uid);
 }

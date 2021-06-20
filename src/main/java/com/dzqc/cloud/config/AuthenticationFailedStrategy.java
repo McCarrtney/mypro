@@ -20,7 +20,7 @@ public class AuthenticationFailedStrategy implements AuthenticationEntryPoint {
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json; charset=utf-8");
         try (PrintWriter out = response.getWriter()) {
-            out.println(JSON.toJSONString(ResultObject.error(e.getMessage())));
+            out.println(JSON.toJSONString(ResultObject.error("未登录或登录超时，请重新登录",901)));
         } catch (Exception e0) {
             e0.printStackTrace();
         }

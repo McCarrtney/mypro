@@ -1,7 +1,10 @@
 package com.dzqc.cloud.service;
 
 import com.dzqc.cloud.entity.Medicalrecord;
+import com.dzqc.cloud.entity.Prescription;
 import com.github.pagehelper.PageInfo;
+
+import java.util.List;
 
 public interface MedicalrecordService {
     /**
@@ -29,4 +32,10 @@ public interface MedicalrecordService {
     public void batchDelete(Integer[] ids);
 
     public void update(Medicalrecord medicalrecord);
+
+    public List<Prescription> selectPrescription(Integer rid);
+
+    public List<Medicalrecord> selectByUserID(Integer uid);
+
+    public List<Medicalrecord> selectByDoctorID(Integer did);
 }

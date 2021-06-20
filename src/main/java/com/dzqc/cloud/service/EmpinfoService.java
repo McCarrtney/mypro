@@ -17,4 +17,11 @@ public interface EmpinfoService {
      */
     void insertEmp(Empinfo empinfo);
 
+    public Empinfo selectByPhone(String phone);
+
+    public String login(String phone, String password);
+
+    public List<Empinfo> selectAll();
+
+    public Empinfo selectByID(Integer id);
 }

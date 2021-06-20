@@ -6,27 +6,37 @@
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="username" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="password" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="birthday" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="birthday" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="address" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="office" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="role_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="dep_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="title_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="comment" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="headimg" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="experience" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="hospital" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="state" javaType="java.lang.Integer" jdbcType="INTEGER" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    e.id as id, username, password, birthday, phone, address, role_id, dep_id, title_id, comment,
-    headimg, experience, state
+    e.id as id, username, password, birthday, phone, office, role_id, dep_id, title_id, comment,
+    headimg, hospital, state
   </sql>
 
   <!--根据部门编号查询对应的医生信息-->
   <select id="selectByDid" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
     from empinfo e join titleinfo  t on e.title_id=t.id where t.titlename='医生' and e.dep_id=#{did} and state=1
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from empinfo e join titleinfo  t on e.title_id=t.id where state=1
+  </select>
+
+  <select id="selectByPhone" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from empinfo e join titleinfo  t on e.title_id=t.id where t.titlename='医生' and e.phone=#{phone} and state=1
   </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -41,14 +51,14 @@
   </delete>
   <insert id="insert" parameterType="com.dzqc.cloud.entity.Empinfo">
     insert into empinfo (id, username, password, 
-      birthday, phone, address, 
+      birthday, phone, office, 
       role_id, dep_id, title_id, 
-      comment, headimg, experience, 
+      comment, headimg, hospital, 
       state)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{birthday,jdbcType=TIMESTAMP}, #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=TIMESTAMP}, #{phone,jdbcType=VARCHAR}, #{office,jdbcType=VARCHAR}, 
       #{roleId,jdbcType=INTEGER}, #{depId,jdbcType=INTEGER}, #{titleId,jdbcType=INTEGER}, 
-      #{comment,jdbcType=VARCHAR}, #{headimg,jdbcType=VARCHAR}, #{experience,jdbcType=VARCHAR}, 
+      #{comment,jdbcType=VARCHAR}, #{headimg,jdbcType=VARCHAR}, #{hospital,jdbcType=VARCHAR}, 
       #{state,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.dzqc.cloud.entity.Empinfo">
@@ -69,8 +79,8 @@
       <if test="phone != null">
         phone,
       </if>
-      <if test="address != null">
-        address,
+      <if test="office != null">
+        office,
       </if>
       <if test="roleId != null">
         role_id,
@@ -87,8 +97,8 @@
       <if test="headimg != null">
         headimg,
       </if>
-      <if test="experience != null">
-        experience,
+      <if test="hospital != null">
+        hospital,
       </if>
       <if test="state != null">
         state,
@@ -110,8 +120,8 @@
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="address != null">
-        #{address,jdbcType=VARCHAR},
+      <if test="office != null">
+        #{office,jdbcType=VARCHAR},
       </if>
       <if test="roleId != null">
         #{roleId,jdbcType=INTEGER},
@@ -128,8 +138,8 @@
       <if test="headimg != null">
         #{headimg,jdbcType=VARCHAR},
       </if>
-      <if test="experience != null">
-        #{experience,jdbcType=VARCHAR},
+      <if test="hospital != null">
+        #{hospital,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
         #{state,jdbcType=INTEGER},
@@ -151,8 +161,8 @@
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="address != null">
-        address = #{address,jdbcType=VARCHAR},
+      <if test="office != null">
+        office = #{office,jdbcType=VARCHAR},
       </if>
       <if test="roleId != null">
         role_id = #{roleId,jdbcType=INTEGER},
@@ -169,8 +179,8 @@
       <if test="headimg != null">
         headimg = #{headimg,jdbcType=VARCHAR},
       </if>
-      <if test="experience != null">
-        experience = #{experience,jdbcType=VARCHAR},
+      <if test="hospital != null">
+        hospital = #{hospital,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
         state = #{state,jdbcType=INTEGER},
@@ -184,13 +194,13 @@
       password = #{password,jdbcType=VARCHAR},
       birthday = #{birthday,jdbcType=TIMESTAMP},
       phone = #{phone,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR},
+      office = #{office,jdbcType=VARCHAR},
       role_id = #{roleId,jdbcType=INTEGER},
       dep_id = #{depId,jdbcType=INTEGER},
       title_id = #{titleId,jdbcType=INTEGER},
       comment = #{comment,jdbcType=VARCHAR},
       headimg = #{headimg,jdbcType=VARCHAR},
-      experience = #{experience,jdbcType=VARCHAR},
+      hospital = #{hospital,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

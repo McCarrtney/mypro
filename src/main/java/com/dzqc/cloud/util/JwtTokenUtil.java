@@ -2,6 +2,7 @@ package com.dzqc.cloud.util;
 
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,13 @@ public class JwtTokenUtil {
      * @return
      */
     public String getUsernameFromToken(String token) {
-        return getClaimFromToken(token, Claims::getSubject);
+        String name = null;
+        try{
+            name = getClaimFromToken(token, Claims::getSubject);
+        }catch (ExpiredJwtException e){
+            name = e.getClaims().getSubject();
+        }
+        return name;
     }
 
     /**
@@ -81,8 +88,13 @@ public class JwtTokenUtil {
      * @param token
      * @return
      */
-    private Boolean isTokenExpired(String token) {
-        final Date expiration = getExpirationDateFromToken(token);
+    public Boolean isTokenExpired(String token) {
+        final Date expiration;
+        try {
+            expiration = getExpirationDateFromToken(token);
+        }catch (ExpiredJwtException e){
+            return true;
+        }
         return expiration.before(new Date());
     }
 

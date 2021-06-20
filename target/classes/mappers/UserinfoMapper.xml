@@ -22,11 +22,12 @@
       <arg column="nurseid" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="instatus" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="state" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="picture" jdbcType="INTEGER" javaType="java.lang.String" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
     id, username, password, roleid, phone, validatecode, cid, birthday, gender, di_type, 
-    frontimg, backimg, address, bedno, departmentid, doctorid, nurseid, instatus, state
+    frontimg, backimg, address, bedno, departmentid, doctorid, nurseid, instatus, state, picture
   </sql>
   <!--根据手机号查询用户信息-->
   <select id="selectByPhone" resultMap="BaseResultMap">
@@ -50,14 +51,14 @@
       di_type, frontimg, backimg, 
       address, bedno, departmentid, 
       doctorid, nurseid, instatus, 
-      state)
+      state, picture)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{roleid,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{validatecode,jdbcType=VARCHAR}, 
       #{cid,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, #{gender,jdbcType=VARCHAR}, 
       #{diType,jdbcType=INTEGER}, #{frontimg,jdbcType=VARCHAR}, #{backimg,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{bedno,jdbcType=VARCHAR}, #{departmentid,jdbcType=INTEGER}, 
       #{doctorid,jdbcType=INTEGER}, #{nurseid,jdbcType=INTEGER}, #{instatus,jdbcType=INTEGER}, 
-      #{state,jdbcType=INTEGER})
+      #{state,jdbcType=INTEGER},#{picture,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.dzqc.cloud.entity.Userinfo" >
     insert into userinfo
@@ -119,6 +120,9 @@
       <if test="state != null" >
         state,
       </if>
+      <if test="picture != null" >
+        picture,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -177,6 +181,9 @@
       </if>
       <if test="state != null" >
         #{state,jdbcType=INTEGER},
+      </if>
+      <if test="picture != null" >
+        #{picture,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -237,6 +244,9 @@
       <if test="state != null" >
         state = #{state,jdbcType=INTEGER},
       </if>
+      <if test="picture != null" >
+        #{picture,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -259,7 +269,8 @@
       doctorid = #{doctorid,jdbcType=INTEGER},
       nurseid = #{nurseid,jdbcType=INTEGER},
       instatus = #{instatus,jdbcType=INTEGER},
-      state = #{state,jdbcType=INTEGER}
+      state = #{state,jdbcType=INTEGER},
+      picture = #{picture,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

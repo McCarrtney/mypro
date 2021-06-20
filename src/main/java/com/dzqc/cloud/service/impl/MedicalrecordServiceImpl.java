@@ -1,8 +1,10 @@
 package com.dzqc.cloud.service.impl;
 
 import com.dzqc.cloud.dao.MedicalrecordMapper;
+import com.dzqc.cloud.dao.PrescriptionMapper;
 import com.dzqc.cloud.dao.UserinfoMapper;
 import com.dzqc.cloud.entity.Medicalrecord;
+import com.dzqc.cloud.entity.Prescription;
 import com.dzqc.cloud.service.MedicalrecordService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -19,6 +21,8 @@ public class MedicalrecordServiceImpl implements MedicalrecordService {
     private MedicalrecordMapper medicalrecordMapper;
     @Autowired
     private UserinfoMapper userinfoMapper;
+    @Autowired
+    private PrescriptionMapper prescriptionMapper;
 
     public void insertMedicalrecord(Medicalrecord medicalrecord){
             this.medicalrecordMapper.insertSelective(medicalrecord);
@@ -50,5 +54,20 @@ public class MedicalrecordServiceImpl implements MedicalrecordService {
     public void update(Medicalrecord medicalrecord) {
         this.medicalrecordMapper.updateByPrimaryKeySelective(medicalrecord);
         this.userinfoMapper.updateByPrimaryKeySelective(medicalrecord.getUserinfo());
+    }
+
+    @Override
+    public List<Prescription> selectPrescription(Integer rid) {
+        return prescriptionMapper.selectByRecordID(rid);
+    }
+
+    @Override
+    public List<Medicalrecord> selectByUserID(Integer uid) {
+        return medicalrecordMapper.selectByUserID(uid);
+    }
+
+    @Override
+    public List<Medicalrecord> selectByDoctorID(Integer did) {
+        return medicalrecordMapper.selectByDoctorID(did);
     }
 }

@@ -1,6 +1,7 @@
 package com.dzqc.cloud.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Empinfo implements Serializable {
     private Integer id;
@@ -9,11 +10,11 @@ public class Empinfo implements Serializable {
 
     private String password;
 
-    private String birthday;
+    private Date birthday;
 
     private String phone;
 
-    private String address;
+    private String office;
 
     private Integer roleId;
 
@@ -25,25 +26,25 @@ public class Empinfo implements Serializable {
 
     private String headimg;
 
-    private String experience;
+    private String hospital;
 
     private Integer state;
 
     private static final long serialVersionUID = 1L;
 
-    public Empinfo(Integer id, String username, String password, String birthday, String phone, String address, Integer roleId, Integer depId, Integer titleId, String comment, String headimg, String experience, Integer state) {
+    public Empinfo(Integer id, String username, String password, Date birthday, String phone, String office, Integer roleId, Integer depId, Integer titleId, String comment, String headimg, String hospital, Integer state) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.birthday = birthday;
         this.phone = phone;
-        this.address = address;
+        this.office = office;
         this.roleId = roleId;
         this.depId = depId;
         this.titleId = titleId;
         this.comment = comment;
         this.headimg = headimg;
-        this.experience = experience;
+        this.hospital = hospital;
         this.state = state;
     }
 
@@ -75,11 +76,11 @@ public class Empinfo implements Serializable {
         this.password = password == null ? null : password.trim();
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
@@ -91,12 +92,12 @@ public class Empinfo implements Serializable {
         this.phone = phone == null ? null : phone.trim();
     }
 
-    public String getAddress() {
-        return address;
+    public String getoffice() {
+        return office;
     }
 
-    public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
+    public void setoffice(String office) {
+        this.office = office == null ? null : office.trim();
     }
 
     public Integer getRoleId() {
@@ -139,12 +140,12 @@ public class Empinfo implements Serializable {
         this.headimg = headimg == null ? null : headimg.trim();
     }
 
-    public String getExperience() {
-        return experience;
+    public String gethospital() {
+        return hospital;
     }
 
-    public void setExperience(String experience) {
-        this.experience = experience == null ? null : experience.trim();
+    public void sethospital(String hospital) {
+        this.hospital = hospital == null ? null : hospital.trim();
     }
 
     public Integer getState() {

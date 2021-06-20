@@ -25,7 +25,22 @@ public class SecurityServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         Userinfo userinfo = userMapper.selectByPhone(userName);
         if (userinfo != null) {
-            return new SecurityUser(userName, userinfo.getPassword(), new ArrayList<>(), 1);
+            ArrayList<String> roleList = new ArrayList<>();
+            if(userinfo.getRoleid()==1){
+                roleList.add("ROLE_ADMIN");
+                //roleList.add("ROLE_USER");
+                return new SecurityUser(userName, userinfo.getPassword(), roleList, 1);
+            }else if(userinfo.getRoleid()==2){
+                roleList.add("ROLE_USER");
+                return new SecurityUser(userName, userinfo.getPassword(), roleList, 1);
+            }else if(userinfo.getRoleid()==3){
+                roleList.add("ROLE_DOCTOR");
+                //roleList.add("ROLE_USER");
+                return new SecurityUser(userName, userinfo.getPassword(), roleList, 1);
+            }else{
+                return new SecurityUser(userName, userinfo.getPassword(), new ArrayList<>(), 1);
+            }
+            //return new SecurityUser(userName, userinfo.getPassword(), roleList, 1);
         } else {
             throw new UsernameNotFoundException(String.format("%s 该账号不存在", userName));
         }

@@ -108,13 +108,13 @@ CREATE TABLE `empinfo`  (
   `password` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
   `birthday` datetime(0) NOT NULL COMMENT '出生日期',
   `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '联系电话',
-  `address` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '住址',
+  `office` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '住址',
   `role_id` int(0) NOT NULL COMMENT '角色ID',
   `dep_id` int(0) NULL DEFAULT NULL COMMENT '科室ID',
   `title_id` int(0) NULL DEFAULT NULL COMMENT '职称ID',
   `comment` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '简介',
   `headimg` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '证件照',
-  `experience` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '工作经历',
+  `hospital` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '工作经历',
   `state` int(0) NOT NULL COMMENT '启用状态 0.禁用 1.启用',
   `create_time` datetime(0) NULL DEFAULT NULL,
   `update_time` datetime(0) NULL DEFAULT NULL,
@@ -127,8 +127,8 @@ CREATE TABLE `empinfo`  (
 -- ----------------------------
 -- Records of empinfo
 -- ----------------------------
-INSERT INTO `empinfo` VALUES (33, '张医生', '111111', '2020-04-16 14:40:02', '15700085557', '河南-商丘-夏邑', 1, 33, 33, '医生界的一枝花，抗击新冠肺炎卓有成效', NULL, '5', 1, NULL, NULL);
-INSERT INTO `empinfo` VALUES (34, '王医生', '123456', '2020-04-01 15:35:20', '13734741053', '河南-郑州-金水', 1, 34, 33, '医生界的扛把子，抗击新冠肺炎一马当先', NULL, '10', 1, NULL, NULL);
+INSERT INTO `empinfo` VALUES (33, '张医生', '111111', '2020-04-16 14:40:02', '15700085557', '河南-商丘-夏邑', 1, 33, 33, '医生界的一枝花，抗击新冠肺炎卓有成效', NULL, '第一医院', 1, NULL, NULL);
+INSERT INTO `empinfo` VALUES (34, '王医生', '123456', '2020-04-01 15:35:20', '13734741053', '河南-郑州-金水', 1, 34, 33, '医生界的扛把子，抗击新冠肺炎一马当先', NULL, '第一医院', 1, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for institutioninfo
@@ -177,10 +177,10 @@ CREATE TABLE `medicalrecord`  (
 -- ----------------------------
 -- Records of medicalrecord
 -- ----------------------------
-INSERT INTO `medicalrecord` VALUES (38, '03797049661', '1500000003', 34, '2019-10-12 00:00:00', '胃部有点炎症', NULL, '无过敏史', 33, '胃穿孔', '吃一些健胃消食片', '一次三片 一天三次', '注意不要喝酒', '2020-04-22 07:17:27', '2020-04-22 07:17:27', 33, NULL, 1);
+INSERT INTO `medicalrecord` VALUES (38, '03797049661', '1500000003', 34, '2019-10-12 00:00:00', '胃部有点炎症', NULL, '无过敏史', 33, '胃穿孔', '吃一些健胃消食片', '一次三片 一天三次', '注意不要喝酒', '2020-04-22 07:17:27', '2020-04-22 07:17:27', 35, NULL, 1);
 INSERT INTO `medicalrecord` VALUES (39, '49222424520', '13734741053', 34, '2020-04-16 00:00:00', '眼睛很痛，东西看不清楚', NULL, '无过敏史', 34, '红眼病', '滴光明牌眼药水', '一天三次，一次5ml', '注意不要揉眼睛', '2020-04-22 07:30:08', '2020-04-22 07:30:08', 34, NULL, 1);
 INSERT INTO `medicalrecord` VALUES (41, '67359425737', '13734741054', 37, '2020-04-16 00:00:00', '感觉很难受，很恍惚，不清醒', NULL, '无过敏史', 34, '神经衰弱', '住院治疗', '一天一次，一次20分钟', '注意不要情绪过激', '2020-04-22 08:01:28', '2020-04-22 08:01:28', 34, NULL, 1);
-INSERT INTO `medicalrecord` VALUES (42, '01179565860', '13734741055', 38, '2020-04-16 00:00:00', '感觉很疼', NULL, '无过敏史', 34, '妇科炎症', '住院治疗', '一天一次，一次20分钟', '注意好好保养', '2020-04-22 08:02:21', '2020-04-22 08:02:21', 34, NULL, 1);
+INSERT INTO `medicalrecord` VALUES (42, '01179565860', '13734741055', 38, '2020-04-16 00:00:00', '感觉很疼', NULL, '无过敏史', 34, '妇科炎症', '住院治疗', '一天一次，一次20分钟', '注意好好保养', '2020-04-22 08:02:21', '2020-04-22 08:02:21', 35, NULL, 1);
 INSERT INTO `medicalrecord` VALUES (44, '38444916294', '17717835504', 38, '2020-01-27 00:00:00', '感冒发烧', NULL, '无过敏史', 34, '轻微感冒', '快克', '一天一次，一次一片', '不要着凉', '2020-04-27 07:09:56', '2020-04-27 07:09:56', 34, NULL, 1);
 INSERT INTO `medicalrecord` VALUES (45, '91742568033', '18939268075', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-05-25 09:37:34', NULL, 34, NULL, 1);
 
@@ -221,11 +221,14 @@ CREATE TABLE `permission`  (
 DROP TABLE IF EXISTS `prescription`;
 CREATE TABLE `prescription`  (
   `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '处方ID',
-  `user_id` int(0) NOT NULL COMMENT '患者id',
-  `record_id` int(0) NOT NULL COMMENT '病历id',
-  `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '处方内容',
+  `userid` int(0) NOT NULL COMMENT '患者id',
+  `recordid` int(0) NOT NULL COMMENT '病历id',
+  `medicine` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '药品名字',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '处方内容',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '处方信息表' ROW_FORMAT = DYNAMIC;
+
+INSERT INTO `prescription` VALUES (1, 35, 38, '阿司匹林', '一天三次');
 
 -- ----------------------------
 -- Records of prescription
@@ -244,6 +247,9 @@ CREATE TABLE `role`  (
 -- ----------------------------
 -- Records of role
 -- ----------------------------
+INSERT INTO `role` VALUES(1, "ROLE_ADMIN");
+INSERT INTO `role` VALUES(2, "ROLE_USER");
+INSERT INTO `role` VALUES(3, "ROLE_DOCTOR");
 
 -- ----------------------------
 -- Table structure for role_permission
@@ -312,7 +318,7 @@ DROP TABLE IF EXISTS `userinfo`;
 CREATE TABLE `userinfo`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
   `username` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户姓名',
-  `password` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
   `roleid` int(0) NOT NULL COMMENT '角色ID 1.超级管理员 2.普通用户 3.医生 4.护士',
   `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '手机号码',
   `validatecode` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '验证码',
@@ -329,6 +335,7 @@ CREATE TABLE `userinfo`  (
   `nurseid` int(0) NULL DEFAULT NULL COMMENT '责任护士id',
   `instatus` int(0) NULL DEFAULT NULL COMMENT '住院状态 1.未住院 2.预住院 3.住院中 4.已出院',
   `state` int(0) NOT NULL COMMENT '启用状态 0.禁用 1.启用',
+  `picture` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '头像',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `username`(`username`) USING BTREE,
   UNIQUE INDEX `phone`(`phone`) USING BTREE,
@@ -342,7 +349,25 @@ CREATE TABLE `userinfo`  (
 -- ----------------------------
 -- Records of userinfo
 -- ----------------------------
-INSERT INTO `userinfo` VALUES (33, 'lisi', '123456', 1, '17717835504', '', '2147483647', '2020-04-01 10:04:08', '1', NULL, 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3497380956,3644779616&fm=26&gp=0.jpg', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3387134982,2837425777&fm=26&gp=0.jpg', '河南省-商丘市', '', NULL, 33, NULL, NULL, 1);
-INSERT INTO `userinfo` VALUES (34, 'wangwu', '123456', 1, '13734741053', NULL, '15262919956789003', '2020-04-01 15:33:30', '1', NULL, 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3497380956,3644779616&fm=26&gp=0.jpg', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3387134982,2837425777&fm=26&gp=0.jpg', '河南省-郑州市', NULL, NULL, 34, NULL, NULL, 1);
+INSERT INTO `userinfo` VALUES (33, 'lisi', '123456', 1, '17717835504', '', '2147483647', '2020-04-01 10:04:08', '1', NULL, 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3497380956,3644779616&fm=26&gp=0.jpg', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3387134982,2837425777&fm=26&gp=0.jpg', '河南省-商丘市', '', NULL, 33, NULL, NULL, 1, 'xxx');
+INSERT INTO `userinfo` VALUES (34, 'wangwu', '123456', 1, '13734741053', NULL, '15262919956789003', '2020-04-01 15:33:30', '1', NULL, 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3497380956,3644779616&fm=26&gp=0.jpg', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3387134982,2837425777&fm=26&gp=0.jpg', '河南省-郑州市', NULL, NULL, 34, NULL, NULL, 1 , 'xxx');
+
+-- ----------------------------
+-- Table structure for healthrecord
+-- ----------------------------
+DROP TABLE IF EXISTS `healthrecord`;
+CREATE TABLE `healthrecord`(
+	`id` int(0) NOT NULL AUTO_INCREMENT,
+    `date` datetime(0) NOT NULL COMMENT '日期',
+    `height` double NOT NULL COMMENT '身高',
+    `weight` double NOT NULL COMMENT '体重',
+    `highpressure` double NOT NULL COMMENT '高压',
+    `lowpressure` double NOT NULL COMMENT '低压',
+    `lung` double NOT NULL COMMENT '肺活量',
+	`userid` int NOT NULL COMMENT '病人id',
+    PRIMARY KEY (`id`) USING BTREE
+)ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户信息表' ROW_FORMAT = DYNAMIC;
+
+INSERT INTO `healthrecord` VALUES(1, '2020-04-01 10:04:08', 175.2, 57.2, 100.5, 78.4, 5000.2, 33);
 
 SET FOREIGN_KEY_CHECKS = 1;

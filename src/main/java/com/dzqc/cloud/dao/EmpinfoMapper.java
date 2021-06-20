@@ -1,9 +1,11 @@
 package com.dzqc.cloud.dao;
 
 import com.dzqc.cloud.entity.Empinfo;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface EmpinfoMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -22,4 +24,8 @@ public interface EmpinfoMapper {
      * @return
      */
     List<Empinfo> selectByDid(Integer did);
+
+    Empinfo selectByPhone(String phone);
+
+    List<Empinfo> selectAll();
 }

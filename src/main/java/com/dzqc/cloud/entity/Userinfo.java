@@ -42,9 +42,11 @@ public class Userinfo implements Serializable {
 
     private Integer state;
 
+    private String picture;
+
     private static final long serialVersionUID = 1L;
 
-    public Userinfo(Integer id, String username, String password, Integer roleid, String phone, String validatecode, String cid, Date birthday, String gender, Integer diType, String frontimg, String backimg, String address, String bedno, Integer departmentid, Integer doctorid, Integer nurseid, Integer instatus, Integer state) {
+    public Userinfo(Integer id, String username, String password, Integer roleid, String phone, String validatecode, String cid, Date birthday, String gender, Integer diType, String frontimg, String backimg, String address, String bedno, Integer departmentid, Integer doctorid, Integer nurseid, Integer instatus, Integer state, String picture) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -64,6 +66,7 @@ public class Userinfo implements Serializable {
         this.nurseid = nurseid;
         this.instatus = instatus;
         this.state = state;
+        this.picture = picture;
     }
 
     public Userinfo() {
@@ -220,5 +223,13 @@ public class Userinfo implements Serializable {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 }
