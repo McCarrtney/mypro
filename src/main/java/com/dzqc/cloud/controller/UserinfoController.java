@@ -379,8 +379,8 @@ public class UserinfoController {
         Double lowpressure = userHealthInfo.getLowpressure();
         Double lung = userHealthInfo.getLung();
         HealthRecord healthRecord = new HealthRecord(null, date, height, weight, highpressure, lowpressure, lung, uid);
-        if(healthRecordService.updateHealthInfo(healthRecord)==0){
-            return ResultObject.error("更新健康记录失败",910);
+        if(healthRecordService.insertHealthInfo(healthRecord)==0){
+            return ResultObject.error("添加健康记录失败",910);
         }
         return ResultObject.success();
     }

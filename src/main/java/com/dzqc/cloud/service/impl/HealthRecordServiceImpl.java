@@ -19,7 +19,7 @@ public class HealthRecordServiceImpl implements HealthRecordService {
     }
 
     @Override
-    public Integer updateHealthInfo(HealthRecord healthRecord) {
-        return healthRecordMapper.updateByPrimaryKeySelective(healthRecord);
+    public Integer insertHealthInfo(HealthRecord healthRecord) {
+        return insertHealthInfo(healthRecord);
     }
 }
