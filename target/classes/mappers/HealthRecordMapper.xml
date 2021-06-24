@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dzqc.cloud.dao.HealthRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.dzqc.cloud.entity.HealthRecord" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="height" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="weight" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="highpressure" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="lowpressure" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="lung" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="userid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, date, height, weight, highpressure, lowpressure, lung, userid
+  </sql>
+
+  <select id="selectByUserID" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include> from healthrecord where userid = #{uid}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from healthrecord
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from healthrecord
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dzqc.cloud.entity.HealthRecord" >
+    insert into healthrecord (id, date, height, weight, highpressure, lowpressure, lung, userid)
+    values (#{id,jdbcType=INTEGER}, #{date,jdbcType=TIMESTAMP}, #{height,jdbcType=DOUBLE}, 
+      #{weight,jdbcType=DOUBLE}, #{highpressure,jdbcType=DOUBLE}, #{lowpressure,jdbcType=DOUBLE}, 
+      #{lung,jdbcType=DOUBLE}, #{userid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dzqc.cloud.entity.HealthRecord" >
+    insert into healthrecord
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="height != null" >
+        height,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="highpressure != null" >
+        highpressure,
+      </if>
+      <if test="lowpressure != null" >
+        lowpressure,
+      </if>
+      <if test="lung != null" >
+        lung,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="height != null" >
+        #{height,jdbcType=DOUBLE},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DOUBLE},
+      </if>
+      <if test="highpressure != null" >
+        #{highpressure,jdbcType=DOUBLE},
+      </if>
+      <if test="lowpressure != null" >
+        #{lowpressure,jdbcType=DOUBLE},
+      </if>
+      <if test="lung != null" >
+        #{lung,jdbcType=DOUBLE},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dzqc.cloud.entity.HealthRecord" >
+    update healthrecord
+    <set >
+      <if test="date != null" >
+        date = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="height != null" >
+        height = #{height,jdbcType=DOUBLE},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=DOUBLE},
+      </if>
+      <if test="highpressure != null" >
+        highpressure = #{highpressure,jdbcType=DOUBLE},
+      </if>
+      <if test="lowpressure != null" >
+        lowpressure = #{lowpressure,jdbcType=DOUBLE},
+      </if>
+      <if test="lung != null" >
+        lung = #{lung,jdbcType=DOUBLE},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dzqc.cloud.entity.HealthRecord" >
+    update healthrecord
+    set date = #{date,jdbcType=TIMESTAMP},
+      height = #{height,jdbcType=DOUBLE},
+      weight = #{weight,jdbcType=DOUBLE},
+      highpressure = #{highpressure,jdbcType=DOUBLE},
+      lowpressure = #{lowpressure,jdbcType=DOUBLE},
+      lung = #{lung,jdbcType=DOUBLE},
+      userid = #{userid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
