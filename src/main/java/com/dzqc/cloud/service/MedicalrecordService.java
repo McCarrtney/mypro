@@ -11,7 +11,7 @@ public interface MedicalrecordService {
      * 添加电子病历
      * @param medicalrecord
      */
-    public void insertMedicalrecord(Medicalrecord medicalrecord);
+    public Integer insertMedicalrecord(Medicalrecord medicalrecord);
 
     /**
      * 分页查询所有的电子病历
@@ -38,4 +38,6 @@ public interface MedicalrecordService {
     public List<Medicalrecord> selectByUserID(Integer uid);
 
     public List<Medicalrecord> selectByDoctorID(Integer did);
+
+    public Integer insertPrescription(Prescription prescription);
 }

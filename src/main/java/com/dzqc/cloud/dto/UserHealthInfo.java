@@ -10,16 +10,18 @@ public class UserHealthInfo implements Serializable {
     private Double highpressure;
     private Double lowpressure;
     private Double lung;
+    private Integer uid;
 
     private static final long serialVersionUID = 1L;
 
-    public UserHealthInfo(Date date, Double height, Double weight, Double highpressure, Double lowpressure, Double lung) {
+    public UserHealthInfo(Date date, Double height, Double weight, Double highpressure, Double lowpressure, Double lung, Integer uid) {
         this.date = date;
         this.height = height;
         this.weight = weight;
         this.highpressure = highpressure;
         this.lowpressure = lowpressure;
         this.lung = lung;
+        this.uid = uid;
     }
 
     public Date getDate() {
@@ -68,5 +70,13 @@ public class UserHealthInfo implements Serializable {
 
     public void setLung(Double lung) {
         this.lung = lung;
+    }
+
+    public Integer getUid() {
+        return uid;
+    }
+
+    public void setUid(Integer uid) {
+        this.uid = uid;
     }
 }

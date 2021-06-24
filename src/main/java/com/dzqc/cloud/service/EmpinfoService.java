@@ -15,7 +15,7 @@ public interface EmpinfoService {
     /**
      * 新增科室医生
      */
-    void insertEmp(Empinfo empinfo);
+    Integer insertEmp(Empinfo empinfo);
 
     public Empinfo selectByPhone(String phone);
 
@@ -24,4 +24,6 @@ public interface EmpinfoService {
     public List<Empinfo> selectAll();
 
     public Empinfo selectByID(Integer id);
+
+    public Integer updateEmpInfo(Empinfo empinfo);
 }

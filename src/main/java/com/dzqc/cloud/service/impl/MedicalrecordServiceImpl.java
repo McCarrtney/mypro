@@ -24,8 +24,8 @@ public class MedicalrecordServiceImpl implements MedicalrecordService {
     @Autowired
     private PrescriptionMapper prescriptionMapper;
 
-    public void insertMedicalrecord(Medicalrecord medicalrecord){
-            this.medicalrecordMapper.insertSelective(medicalrecord);
+    public Integer insertMedicalrecord(Medicalrecord medicalrecord){
+            return this.medicalrecordMapper.insertSelective(medicalrecord);
     }
 
     @Override
@@ -69,5 +69,10 @@ public class MedicalrecordServiceImpl implements MedicalrecordService {
     @Override
     public List<Medicalrecord> selectByDoctorID(Integer did) {
         return medicalrecordMapper.selectByDoctorID(did);
+    }
+
+    @Override
+    public Integer insertPrescription(Prescription prescription) {
+        return prescriptionMapper.insert(prescription);
     }
 }

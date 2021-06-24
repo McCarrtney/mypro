@@ -203,10 +203,17 @@ public class UserinfoController {
             userinfo.setRoleid(role);
             userinfo.setBirthday(new Date(2021-1900, 5-1, 22));
             userinfo.setState(1);
+            if(role==3){
+                Empinfo empinfo = new Empinfo(null, username, null, new Date(2021-1900, 5-1, 22) , phone, null, role, null, null, null, null, null,1);
+                if(empinfoService.insertEmp(empinfo)==0){
+                    return ResultObject.error("注册失败，请重试或联系管理员",903);
+                }
+            }
             if(userService.insertUser(userinfo)==0){
                 return ResultObject.error("注册失败，请重试或联系管理员",903);
             }else{
-                return ResultObject.success(userinfo);
+                Userinfo userinfo1 = userService.selectByPhone(phone);
+                return ResultObject.success(userinfo1);
             }
         }
     }
@@ -277,7 +284,7 @@ public class UserinfoController {
         if(healthRecord==null){
             return ResultObject.error("该用户无健康记录", 905);
         }
-        return ResultObject.success(new UserHealthInfo(healthRecord.getDate(), healthRecord.getHeight(), healthRecord.getWeight(), healthRecord.getHighpressure(), healthRecord.getLowpressure(), healthRecord.getLung()));
+        return ResultObject.success(new UserHealthInfo(healthRecord.getDate(), healthRecord.getHeight(), healthRecord.getWeight(), healthRecord.getHighpressure(), healthRecord.getLowpressure(), healthRecord.getLung(), healthRecord.getUserid()));
     }
 
     /**
@@ -329,11 +336,52 @@ public class UserinfoController {
             Integer rid = medicalrecord.getId();
             List<Prescription> prescriptions = medicalrecordService.selectPrescription(rid);
             if(prescriptions==null){
-                medicalInfos.add(new MedicalInfo(medicalrecord.getId(), medicalrecord.getCreateTime(), name, medicalrecord.getDiagnosis(), new ArrayList<>()));
+                medicalInfos.add(new MedicalInfo(medicalrecord.getId(), medicalrecord.getCreateTime(), name, medicalrecord.getDiagnosis(), new ArrayList<>(), medicalrecord.getDocId()));
             }else{
-                medicalInfos.add(new MedicalInfo(medicalrecord.getId(), medicalrecord.getCreateTime(), name, medicalrecord.getDiagnosis(), prescriptions));
+                medicalInfos.add(new MedicalInfo(medicalrecord.getId(), medicalrecord.getCreateTime(), name, medicalrecord.getDiagnosis(), prescriptions, medicalrecord.getDocId()));
             }
         }
         return ResultObject.success(medicalInfos);
+    }
+
+    /**
+     * 更改用户信息
+     * @param userBasicInfo 用户基本信息
+     * @return 是否修改成功
+     */
+    @RequestMapping(value = "/user/chageInfo", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultObject changeInfo(@RequestBody UserBasicInfo userBasicInfo){
+        int id = userBasicInfo.getId();
+        String name = userBasicInfo.getUsername();
+        Date birthday = userBasicInfo.getBirthday();
+        String picture = userBasicInfo.getPicture();
+        Userinfo userinfo = new Userinfo(id, name, null, null, null, null, null, birthday, null, null, null, null, null, null, null, null, null, null, null, picture);
+        if(userService.updateUserInfo(userinfo)==0){
+            return ResultObject.error("更新信息失败",909);
+        }
+        return ResultObject.success();
+    }
+
+    /**
+     * 更改用户信息
+     * @param userHealthInfo 用户健康信息
+     * @return 是否修改成功
+     */
+    @RequestMapping(value = "/user/addHealth", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultObject addHealth(@RequestBody UserHealthInfo userHealthInfo){
+        int uid = userHealthInfo.getUid();
+        Date date = userHealthInfo.getDate();
+        Double height = userHealthInfo.getHeight();
+        Double weight = userHealthInfo.getWeight();
+        Double highpressure = userHealthInfo.getHighpressure();
+        Double lowpressure = userHealthInfo.getLowpressure();
+        Double lung = userHealthInfo.getLung();
+        HealthRecord healthRecord = new HealthRecord(null, date, height, weight, highpressure, lowpressure, lung, uid);
+        if(healthRecordService.updateHealthInfo(healthRecord)==0){
+            return ResultObject.error("更新健康记录失败",910);
+        }
+        return ResultObject.success();
     }
 }

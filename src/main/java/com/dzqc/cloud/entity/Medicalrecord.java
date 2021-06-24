@@ -121,7 +121,7 @@ public class Medicalrecord implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Medicalrecord(Integer id, String recordCode, String phone, Integer departmentId, String seektime, String description, String guomishi, String diagnosis, String prescription, String comment, String remark) {
+    public Medicalrecord(Integer id, String recordCode, String phone, Integer departmentId, String seektime, String description, String guomishi, String diagnosis, String prescription, String comment, String remark, Integer pid, Integer did, Date createTime, Integer state) {
         this.id = id;
         this.recordCode = recordCode;
         this.phone = phone;
@@ -133,6 +133,10 @@ public class Medicalrecord implements Serializable {
         this.prescription = prescription;
         this.comment = comment;
         this.remark = remark;
+        this.userId = pid;
+        this.docId = did;
+        this.createTime = createTime;
+        this.state = state;
     }
 
     public Medicalrecord() {

@@ -17,4 +17,9 @@ public class HealthRecordServiceImpl implements HealthRecordService {
     public HealthRecord selectByUserID(Integer uid) {
         return healthRecordMapper.selectByUserID(uid);
     }
+
+    @Override
+    public Integer updateHealthInfo(HealthRecord healthRecord) {
+        return healthRecordMapper.updateByPrimaryKeySelective(healthRecord);
+    }
 }

@@ -6,4 +6,5 @@ public interface UserService {
     //2021/5/22 wxr
     public int insertUser(Userinfo record);
     public String login(String phone, String password);
+    public Integer updateUserInfo(Userinfo userinfo);
 }

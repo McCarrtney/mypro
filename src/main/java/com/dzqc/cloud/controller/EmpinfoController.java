@@ -4,6 +4,7 @@ import com.dzqc.cloud.common.ResultObject;
 import com.dzqc.cloud.dto.DoctorBasicInfo;
 import com.dzqc.cloud.dto.MedicalInfo;
 import com.dzqc.cloud.dto.PatientInfo;
+import com.dzqc.cloud.dto.UserBasicInfo;
 import com.dzqc.cloud.entity.Medicalrecord;
 import com.dzqc.cloud.entity.Prescription;
 import com.dzqc.cloud.entity.Userinfo;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -109,5 +111,53 @@ public class EmpinfoController {
         return ResultObject.success(patientInfos);
     }
 
+    /**
+     * 更改医生信息
+     * @param doctorBasicInfo 医生基本信息
+     * @return 是否修改成功
+     */
+    @RequestMapping(value = "/doctor/chageInfo", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultObject changeInfo(@RequestBody DoctorBasicInfo doctorBasicInfo){
+        int id = doctorBasicInfo.getId();
+        String name = doctorBasicInfo.getUsername();
+        Date age = doctorBasicInfo.getAge();
+        String headimg = doctorBasicInfo.getHeadimg();
+        String office = doctorBasicInfo.getOffice();
+        String hospital = doctorBasicInfo.getHospital();
+        String comment = doctorBasicInfo.getComment();
+        Empinfo empinfo = new Empinfo(id, name, null, age, null, office, null, null, null, comment, headimg, hospital,null);
+        if(empinfoService.updateEmpInfo(empinfo)==0){
+            return ResultObject.error("更新信息失败",911);
+        }
+        return ResultObject.success();
+    }
 
+    /**
+     * 增加病历
+     * @param medicalInfo 医生基本信息
+     * @return 是否修改成功
+     */
+    @RequestMapping(value = "/doctor/addMedical", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultObject addMedical(@RequestBody MedicalInfo medicalInfo){
+        Integer pid = medicalInfo.getId();
+        Date createTime = medicalInfo.getCreateTime();
+        String doctor = medicalInfo.getDoctor();
+        String diagnosis = medicalInfo.getDiagnosis();
+        List<Prescription> prescriptions = medicalInfo.getPrescriptions();
+        Integer did = medicalInfo.getDid();
+        Medicalrecord medicalrecord = new Medicalrecord(null, null, null, null, null, null, null, diagnosis, null, null, null, pid, did, createTime, 3);
+        int rid=medicalrecordService.insertMedicalrecord(medicalrecord);
+        if(rid==0){
+            return ResultObject.error("添加病历失败",912);
+        }
+        for(Prescription prescription:prescriptions){
+            prescription.setRecordid(rid);
+            if(medicalrecordService.insertPrescription(prescription)==0){
+                return ResultObject.error("添加处方失败",913);
+            }
+        }
+        return ResultObject.success();
+    }
 }

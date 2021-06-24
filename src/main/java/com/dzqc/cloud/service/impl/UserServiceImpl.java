@@ -46,4 +46,11 @@ public class UserServiceImpl implements UserService {
         // 生成jwt token
         return jwtTokenUtil.generateToken(phone);
     }
+
+    @Override
+    public Integer updateUserInfo(Userinfo userinfo) {
+        return userinfoMapper.updateByPrimaryKeySelective(userinfo);
+    }
+
+
 }

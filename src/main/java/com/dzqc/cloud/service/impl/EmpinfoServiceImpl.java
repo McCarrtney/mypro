@@ -28,8 +28,8 @@ public class EmpinfoServiceImpl implements EmpinfoService {
     }
 
     @Override
-    public void insertEmp(Empinfo empinfo) {
-        empinfoMapper.insert(empinfo);
+    public Integer insertEmp(Empinfo empinfo) {
+        return empinfoMapper.insert(empinfo);
     }
 
     @Override
@@ -57,6 +57,11 @@ public class EmpinfoServiceImpl implements EmpinfoService {
     @Override
     public Empinfo selectByID(Integer id) {
         return empinfoMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public Integer updateEmpInfo(Empinfo empinfo) {
+        return empinfoMapper.updateByPrimaryKeySelective(empinfo);
     }
 
 

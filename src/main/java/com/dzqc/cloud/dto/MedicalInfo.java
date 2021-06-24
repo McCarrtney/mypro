@@ -12,15 +12,17 @@ public class MedicalInfo implements Serializable {
     private String doctor;
     private String diagnosis;
     private List<Prescription> prescriptions;
+    private Integer did;
 
     private static final long serialVersionUID = 1L;
 
-    public MedicalInfo(Integer id, Date createTime, String doctor, String diagnosis, List<Prescription> prescriptions) {
+    public MedicalInfo(Integer id, Date createTime, String doctor, String diagnosis, List<Prescription> prescriptions, Integer did) {
         this.id = id;
         this.createTime = createTime;
         this.doctor = doctor;
         this.diagnosis = diagnosis;
         this.prescriptions = prescriptions;
+        this.did = did;
     }
 
     public Integer getId() {
@@ -61,5 +63,13 @@ public class MedicalInfo implements Serializable {
 
     public void setPrescriptions(List<Prescription> prescriptions) {
         this.prescriptions = prescriptions;
+    }
+
+    public Integer getDid() {
+        return did;
+    }
+
+    public void setDid(Integer did) {
+        this.did = did;
     }
 }
