@@ -3,10 +3,7 @@ package com.dzqc.cloud.controller;
 import com.dzqc.cloud.common.Message;
 import com.dzqc.cloud.common.ResultObject;
 import com.dzqc.cloud.common.utils.CurPool;
-import com.dzqc.cloud.dto.DoctorBasicInfo;
-import com.dzqc.cloud.dto.MedicalInfo;
-import com.dzqc.cloud.dto.UserBasicInfo;
-import com.dzqc.cloud.dto.UserHealthInfo;
+import com.dzqc.cloud.dto.*;
 import com.dzqc.cloud.entity.*;
 import com.dzqc.cloud.service.EmpinfoService;
 import com.dzqc.cloud.service.HealthRecordService;
@@ -134,14 +131,15 @@ public class UserinfoController {
 
     /**
      * 用户登陆
-     * @param phone 手机号
-     * @param password 密码
+     * @param userLogInfo 用户信息
      * @return token
      */
 
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
     @ResponseBody
-    public  ResultObject login(@RequestParam(name = "phone", required = true) String phone, @RequestParam(name = "password", required = true) String password){
+    public  ResultObject login(/*@RequestParam(name = "phone", required = true) String phone, @RequestParam(name = "password", required = true) String password*/@RequestBody UserLogInfo userLogInfo){
+        String phone = userLogInfo.getPhone();
+        String password = userLogInfo.getPassword();
         Userinfo userinfo = userService.selectByPhone(phone);
         if(userinfo == null){
             return ResultObject.error("号码未注册，请先完成注册", 904);
