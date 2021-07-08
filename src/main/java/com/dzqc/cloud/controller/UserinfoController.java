@@ -151,14 +151,15 @@ public class UserinfoController {
 
     /**
      * 医生登陆
-     * @param phone 手机号
-     * @param password 密码
+     * @param userLogInfo 用户信息
      * @return token
      */
 
     @RequestMapping(value = "/doctor/login", method = RequestMethod.POST)
     @ResponseBody
-    public  ResultObject loginDoctor(@RequestParam(name = "phone", required = true) String phone, @RequestParam(name = "password", required = true) String password){
+    public  ResultObject loginDoctor(/*@RequestParam(name = "phone", required = true) String phone, @RequestParam(name = "password", required = true) String password*/@RequestBody UserLogInfo userLogInfo){
+        String phone = userLogInfo.getPhone();
+        String password = userLogInfo.getPassword();
         Userinfo userinfo = userService.selectByPhone(phone);
         if(userinfo == null){
             return ResultObject.error("号码未注册，请先完成注册", 904);
@@ -170,14 +171,15 @@ public class UserinfoController {
 
     /**
      * 管理员登陆
-     * @param phone 手机号
-     * @param password 密码
+     * @param userLogInfo 用户信息
      * @return token
      */
 
     @RequestMapping(value = "/admin/login", method = RequestMethod.POST)
     @ResponseBody
-    public  ResultObject loginAdmin(@RequestParam(name = "phone", required = true) String phone, @RequestParam(name = "password", required = true) String password){
+    public  ResultObject loginAdmin(/*@RequestParam(name = "phone", required = true) String phone, @RequestParam(name = "password", required = true) String password*/@RequestBody UserLogInfo userLogInfo){
+        String phone = userLogInfo.getPhone();
+        String password = userLogInfo.getPassword();
         Userinfo userinfo = userService.selectByPhone(phone);
         if(userinfo == null){
             return ResultObject.error("号码未注册，请先完成注册", 904);
@@ -189,16 +191,19 @@ public class UserinfoController {
 
     /**
      * 注册
-     * @param phone 手机号
-     * @param password 密码
+     * @param userLogInfo 用户信息
      * @return
      */
     @RequestMapping(value = "/user/register", method = RequestMethod.POST)
     @ResponseBody
-    public ResultObject register(@RequestParam(name = "phone", required = true) String phone,
+    public ResultObject register(/*@RequestParam(name = "phone", required = true) String phone,
                                  @RequestParam(name = "password", required = true) String password,
                                  @RequestParam(name = "username", required = true) String username,
-                                 @RequestParam(name = "role", required = true) int role){
+                                 @RequestParam(name = "role", required = true) int role*/@RequestBody UserLogInfo userLogInfo){
+        String phone = userLogInfo.getPhone();
+        String password = userLogInfo.getPassword();
+        String username = userLogInfo.getUsername();
+        Integer role = userLogInfo.getRole();
         if(userService.selectByPhone(phone)!=null){
             return ResultObject.error("该号码已经注册",902);
         }else{
