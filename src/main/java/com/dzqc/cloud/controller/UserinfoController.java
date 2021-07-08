@@ -204,7 +204,7 @@ public class UserinfoController {
             userinfo.setBirthday(new Date(2021-1900, 5-1, 22));
             userinfo.setState(1);
             if(role==3){
-                Empinfo empinfo = new Empinfo(null, username, null, new Date(2021-1900, 5-1, 22) , phone, null, role, null, null, null, null, null,1);
+                Empinfo empinfo = new Empinfo(null, username, null, new Date(2021-1900, 5-1, 22) , phone, null, role, null, null, null, null, null,0);
                 if(empinfoService.insertEmp(empinfo)==0){
                     return ResultObject.error("注册失败，请重试或联系管理员",903);
                 }
@@ -301,7 +301,7 @@ public class UserinfoController {
         }
         List<DoctorBasicInfo> doctorBasicInfos = new ArrayList<>();
         for(Empinfo empinfo:empinfos){
-            doctorBasicInfos.add(new DoctorBasicInfo(empinfo.getId(), empinfo.getBirthday(), empinfo.getUsername(), empinfo.gethospital(), empinfo.getoffice(), empinfo.getComment(), empinfo.getHeadimg()));
+            doctorBasicInfos.add(new DoctorBasicInfo(empinfo.getId(), empinfo.getBirthday(), empinfo.getUsername(), empinfo.gethospital(), empinfo.getoffice(), empinfo.getComment(), empinfo.getHeadimg(), empinfo.getState()));
         }
         return ResultObject.success(doctorBasicInfos);
     }

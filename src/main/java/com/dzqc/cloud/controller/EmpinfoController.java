@@ -69,7 +69,7 @@ public class EmpinfoController {
         if(empinfo==null){
             return ResultObject.error("用户不存在", 904);
         }
-        DoctorBasicInfo doctorBasicInfo = new DoctorBasicInfo(empinfo.getId(), empinfo.getBirthday(), empinfo.getUsername(), empinfo.gethospital(), empinfo.getoffice(), empinfo.getComment(), empinfo.getHeadimg());
+        DoctorBasicInfo doctorBasicInfo = new DoctorBasicInfo(empinfo.getId(), empinfo.getBirthday(), empinfo.getUsername(), empinfo.gethospital(), empinfo.getoffice(), empinfo.getComment(), empinfo.getHeadimg(), empinfo.getState());
         return ResultObject.success(doctorBasicInfo);
     }
 
@@ -126,7 +126,8 @@ public class EmpinfoController {
         String office = doctorBasicInfo.getOffice();
         String hospital = doctorBasicInfo.getHospital();
         String comment = doctorBasicInfo.getComment();
-        Empinfo empinfo = new Empinfo(id, name, null, age, null, office, null, null, null, comment, headimg, hospital,null);
+        Integer state = doctorBasicInfo.getState();
+        Empinfo empinfo = new Empinfo(id, name, null, age, null, office, null, null, null, comment, headimg, hospital, state);
         if(empinfoService.updateEmpInfo(empinfo)==0){
             return ResultObject.error("更新信息失败",911);
         }
@@ -135,7 +136,7 @@ public class EmpinfoController {
 
     /**
      * 增加病历
-     * @param medicalInfo 医生基本信息
+     * @param medicalInfo 病历基本信息
      * @return 是否修改成功
      */
     @RequestMapping(value = "/doctor/addMedical", method = RequestMethod.POST)
