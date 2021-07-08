@@ -68,7 +68,7 @@ public class UserinfoController {
      * @returnd
      */
     @RequestMapping("/shiro/logout")
-    public ResultObject logout(HttpServletRequest request){
+    public ResultObject logout(@RequestParam String phone,HttpServletRequest request){
         HttpSession session = request.getSession();
         session.removeAttribute("userinfo");
         //remove websocket connection records
