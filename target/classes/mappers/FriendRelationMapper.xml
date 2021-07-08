@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dzqc.cloud.dao.FriendRelationMapper">
+  <resultMap id="BaseResultMap" type="com.dzqc.cloud.entity.FriendRelation">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="phone_1" jdbcType="VARCHAR" property="phone1" />
+    <result column="phone_2" jdbcType="VARCHAR" property="phone2" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, phone_1,phone_2
+  </sql>
+  <select id="selectFriendRelationsByPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from friend_relation
+    where phone_1 = #{phone,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPhone" parameterType="java.lang.String">
+    delete from friend_relation
+    where phone_1 = #{phone,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.dzqc.cloud.entity.FriendRelation">
+    insert into friend_relation (id, phone_1, phone_2)
+    values (#{id,jdbcType=INTEGER}, #{phone1,jdbcType=VARCHAR}, #{phone2,jdbcType=VARCHAR})
+  </insert>
+
+
+</mapper>

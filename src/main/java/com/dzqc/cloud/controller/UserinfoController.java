@@ -2,6 +2,7 @@ package com.dzqc.cloud.controller;
 
 import com.dzqc.cloud.common.Message;
 import com.dzqc.cloud.common.ResultObject;
+import com.dzqc.cloud.common.utils.CurPool;
 import com.dzqc.cloud.dto.DoctorBasicInfo;
 import com.dzqc.cloud.dto.MedicalInfo;
 import com.dzqc.cloud.dto.UserBasicInfo;
@@ -70,6 +71,15 @@ public class UserinfoController {
     public ResultObject logout(HttpServletRequest request){
         HttpSession session = request.getSession();
         session.removeAttribute("userinfo");
+        //remove websocket connection records
+        Userinfo user=userService.selectByPhone(phone);
+        Integer id=user.getId();
+        if (CurPool.sessionPool.get(id)!=null) {
+            CurPool.sessionPool.remove(id);
+            CurPool.webSockets.remove(id);
+            System.out.println("[websocket statistics]Disconnection, now total connections: "+CurPool.webSockets.size());
+        }
+        //-------------------------------
         return ResultObject.success("成功注销");
     }
 

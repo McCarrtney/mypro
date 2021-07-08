@@ -1,14 +1,15 @@
 package com.dzqc.cloud.controller;
 
-import com.dzqc.cloud.entity.User;
 import com.dzqc.cloud.common.bean.AjaxResult;
 import com.dzqc.cloud.common.utils.CurPool;
 import com.dzqc.cloud.dao.UserMapper;
+import com.dzqc.cloud.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+//not used any more
 @RestController
 public class UserController {
 

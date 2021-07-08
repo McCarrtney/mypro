@@ -1,14 +1,14 @@
 package com.dzqc.cloud.controller;
 
-import com.dzqc.cloud.entity.MsgInfo;
-import com.dzqc.cloud.entity.SessionList;
-import com.dzqc.cloud.entity.User;
 import com.dzqc.cloud.common.utils.CurPool;
 import com.dzqc.cloud.common.utils.JsonUtils;
 import com.dzqc.cloud.common.utils.SpringContextUtil;
 import com.dzqc.cloud.dao.MsgInfoMapper;
 import com.dzqc.cloud.dao.SeesionListMapper;
 import com.dzqc.cloud.dao.UserMapper;
+import com.dzqc.cloud.entity.MsgInfo;
+import com.dzqc.cloud.entity.Userinfo;
+import com.dzqc.cloud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +21,7 @@ import javax.websocket.server.ServerEndpoint;
 import java.util.*;
 
 @Component
-@ServerEndpoint("/websocket/{userId}/{sessionId}")
+@ServerEndpoint("/websocket/{phone1}/{phone2}")
 //此注解相当于设置访问URL
 public class WebSocket {
 
@@ -34,42 +34,18 @@ public class WebSocket {
     @Autowired
     private MsgInfoMapper msgInfoMapper;
 
+
+    private static UserService userService;
+
     private Session session;
 
+    @Autowired
+    public void setUserService(UserService userService) {
+        WebSocket.userService=userService;
+    }
 
     @OnOpen
-    public void onOpen(Session session,@PathParam(value="userId")Integer userId, @PathParam(value="sessionId")String sessionId) {
-        this.session = session;
-        CurPool.webSockets.put(userId,this);
-        List<Object> list = new ArrayList<>();
-        list.add(sessionId);
-        list.add(session);
-        CurPool.sessionPool.put(userId , list);
-        System.out.println("【websocket消息】有新的连接，总数为:"+CurPool.webSockets.size());
-    }
-
-    @OnClose
-    public void onClose() {
-        // 断开连接删除用户删除session
-        Integer userId = Integer.parseInt(this.session.getRequestParameterMap().get("userId").get(0));
-        CurPool.sessionPool.remove(userId);
-        CurPool.webSockets.remove(userId);
-        if (userMapper == null){
-            this.userMapper = (UserMapper)SpringContextUtil.getBean("userMapper");
-        }
-        User user = userMapper.selectByPrimaryKey(userId);
-        CurPool.curUserPool.remove(user.getName());
-        System.out.println("【websocket消息】连接断开，总数为:"+CurPool.webSockets.size());
-    }
-
-    @OnMessage
-    public void onMessage(String message) {
-
-        String sessionId = this.session.getRequestParameterMap().get("sessionId").get(0);
-        if (sessionId == null){
-            System.out.println("sessionId 错误");
-        }
-        // 在这里无法注入Mapper所以使用这种方式注入Mapper
+    public void onOpen(Session session,@PathParam(value="phone1")String phone1, @PathParam(value="phone2")String phone2) {
         if (seesionListMapper == null){
             this.seesionListMapper = (SeesionListMapper)SpringContextUtil.getBean("seesionListMapper");
         }
@@ -79,51 +55,74 @@ public class WebSocket {
         if (msgInfoMapper == null){
             this.msgInfoMapper = (MsgInfoMapper)SpringContextUtil.getBean("msgInfoMapper");
         }
-        SessionList sessionList = seesionListMapper.selectByPrimaryKey(Integer.parseInt(sessionId));
-        User user = userMapper.selectByPrimaryKey(sessionList.getUserId());
+        this.session = session;
+        Userinfo user=userService.selectByPhone(phone1);
+        Userinfo toUser=userService.selectByPhone(phone2);
+        Integer userId=user.getId();
+        Integer toUserId=toUser.getId();
+        Integer sessionId=seesionListMapper.selectIdByUser(userId,toUserId);
+        CurPool.webSockets.put(userId,this);
+        List<Object> list = new ArrayList<>();
+        list.add(sessionId);
+        list.add(session);
+        CurPool.sessionPool.put(userId , list);
+        System.out.println("[websocket statistics]New connection, total connections:"+CurPool.webSockets.size());
+    }
+
+    @OnClose
+    public void onClose() {
+        // disconnect, and remove session from sessionPool
+        String phone1 = this.session.getRequestParameterMap().get("phone1").get(0);
+        Userinfo user=userService.selectByPhone(phone1);
+        Integer userId=user.getId();
+        CurPool.sessionPool.remove(userId);
+        CurPool.webSockets.remove(userId);
+        System.out.println("[websocket statistics]Disconnected, now total connections:"+CurPool.webSockets.size());
+    }
+
+    @OnMessage
+    public void onMessage(String message) {
+        if (seesionListMapper == null){
+            this.seesionListMapper = (SeesionListMapper)SpringContextUtil.getBean("seesionListMapper");
+        }
+        if (userMapper == null){
+            this.userMapper = (UserMapper)SpringContextUtil.getBean("userMapper");
+        }
+        if (msgInfoMapper == null){
+            this.msgInfoMapper = (MsgInfoMapper)SpringContextUtil.getBean("msgInfoMapper");
+        }
+        String phone1 = this.session.getRequestParameterMap().get("phone1").get(0);
+        String phone2 = this.session.getRequestParameterMap().get("phone2").get(0);
+        Userinfo user=userService.selectByPhone(phone1);
+        Userinfo toUser=userService.selectByPhone(phone2);
+        Integer userId=user.getId();
+        Integer toUserId=toUser.getId();
+        Integer sessionId=seesionListMapper.selectIdByUser(userId,toUserId);
+        if (sessionId == null){
+            System.out.println("Fatal error: try sending message before session established.");
+            return;
+        }
         MsgInfo msgInfo = new MsgInfo();
         msgInfo.setContent(message);
         msgInfo.setCreateTime(new Date());
-        msgInfo.setFromUserId(sessionList.getUserId());
-        msgInfo.setFromUserName(user.getName());
-        msgInfo.setToUserId(sessionList.getToUserId());
-        msgInfo.setToUserName(sessionList.getListName());
+        msgInfo.setFromUserId(userId);
+        msgInfo.setFromUserName(user.getUsername());
+        msgInfo.setToUserId(toUserId);
+        msgInfo.setToUserName(toUser.getUsername());
         msgInfo.setUnReadFlag(0);
-        // 消息持久化
+
         msgInfoMapper.insert(msgInfo);
 
-        // 判断用户是否存在，不存在就结束
-        List<Object> list = CurPool.sessionPool.get(sessionList.getToUserId());
+        //send message
+        List<Object> list = CurPool.sessionPool.get(toUserId);
         if (list == null || list.isEmpty()){
-            // 用户不存在，更新未读数
-            seesionListMapper.addUnReadCount(sessionList.getToUserId(),sessionList.getUserId());
+            seesionListMapper.addUnReadCount(toUserId,userId);
         }else{
             // 用户存在，判断会话是否存在
-            String id = seesionListMapper.selectIdByUser(sessionList.getToUserId(), sessionList.getUserId())+"";
-            String o = list.get(0) + "";
-            if (id.equals(o)){
-                // 会话存在直接发送消息
-                sendTextMessage(sessionList.getToUserId(),JsonUtils.objectToJson(msgInfo));
-            }else {
-                // 判断会话列表是否存在
-                if (id == null || "".equals(id) || "null".equals(id)){
-                    // 新增会话列表
-                    SessionList tmpSessionList = new SessionList();
-                    tmpSessionList.setUserId(sessionList.getToUserId());
-                    tmpSessionList.setToUserId(sessionList.getUserId());
-                    tmpSessionList.setListName(user.getName());
-                    tmpSessionList.setUnReadCount(1);
-                    seesionListMapper.insert(tmpSessionList);
-                }else {
-                    // 更新未读消息数量
-                    seesionListMapper.addUnReadCount(sessionList.getToUserId(),sessionList.getUserId());
-                }
-                // 会话不存在发送列表消息
-                List<SessionList> sessionLists = seesionListMapper.selectByUserId(sessionList.getToUserId());
-                sendTextMessage(sessionList.getToUserId() ,JsonUtils.objectToJson(sessionLists));
-            }
+            // 会话存在直接发送消息
+            sendTextMessage(toUserId,JsonUtils.objectToJson(msgInfo));
         }
-        System.out.println("【websocket消息】收到客户端消息:"+message);
+        System.out.println("[websocket statistics]Message from client: "+message);
     }
 
     // 此为广播消息

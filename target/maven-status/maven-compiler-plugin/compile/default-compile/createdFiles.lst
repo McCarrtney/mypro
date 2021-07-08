@@ -1,0 +1,4 @@
+com\dzqc\cloud\dao\FriendRelationMapper.class
+com\dzqc\cloud\dto\Friend.class
+com\dzqc\cloud\controller\FriendinfoController.class
+com\dzqc\cloud\entity\FriendRelation.class
