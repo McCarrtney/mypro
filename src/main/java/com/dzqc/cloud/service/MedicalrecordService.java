@@ -40,4 +40,8 @@ public interface MedicalrecordService {
     public List<Medicalrecord> selectByDoctorID(Integer did);
 
     public Integer insertPrescription(Prescription prescription);
+
+    public Integer updateMedicalRecord(Medicalrecord medicalrecord);
+
+    public Integer deletePrescription(Integer id);
 }

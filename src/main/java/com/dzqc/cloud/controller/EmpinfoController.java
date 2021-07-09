@@ -135,24 +135,25 @@ public class EmpinfoController {
     }
 
     /**
-     * 增加病历
+     * 更新病历
      * @param medicalInfo 病历基本信息
      * @return 是否修改成功
      */
-    @RequestMapping(value = "/doctor/addMedical", method = RequestMethod.POST)
+    @RequestMapping(value = "/doctor/changeMedical", method = RequestMethod.POST)
     @ResponseBody
-    public ResultObject addMedical(@RequestBody MedicalInfo medicalInfo){
+    public ResultObject changeMedical(@RequestBody MedicalInfo medicalInfo){
         Integer pid = medicalInfo.getId();
         Date createTime = medicalInfo.getCreateTime();
         String doctor = medicalInfo.getDoctor();
         String diagnosis = medicalInfo.getDiagnosis();
         List<Prescription> prescriptions = medicalInfo.getPrescriptions();
         Integer did = medicalInfo.getDid();
-        Medicalrecord medicalrecord = new Medicalrecord(null, null, null, null, null, null, null, diagnosis, null, null, null, pid, did, createTime, 3);
-        medicalrecordService.insertMedicalrecord(medicalrecord);
-        int rid = medicalrecord.getId();
-        if(rid==0){
-            return ResultObject.error("添加病历失败",912);
+        Integer rid = medicalInfo.getRid();
+        Medicalrecord medicalrecord = new Medicalrecord(rid, null, null, null, null, null, null, diagnosis, null, null, null, pid, did, createTime, 3);
+        medicalrecordService.updateMedicalRecord(medicalrecord);
+        List<Prescription> prescriptions1 = medicalrecordService.selectPrescription(rid);
+        for(Prescription prescription:prescriptions1){
+            medicalrecordService.deletePrescription(prescription.getId());
         }
         for(Prescription prescription:prescriptions){
             prescription.setRecordid(rid);

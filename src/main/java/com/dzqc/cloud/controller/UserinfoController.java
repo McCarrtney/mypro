@@ -363,9 +363,9 @@ public class UserinfoController {
             Integer rid = medicalrecord.getId();
             List<Prescription> prescriptions = medicalrecordService.selectPrescription(rid);
             if(prescriptions.size()==0){
-                medicalInfos.add(new MedicalInfo(medicalrecord.getId(), medicalrecord.getCreateTime(), name, medicalrecord.getDiagnosis(), new ArrayList<>(), medicalrecord.getDocId()));
+                medicalInfos.add(new MedicalInfo(medicalrecord.getUserId(), medicalrecord.getCreateTime(), name, medicalrecord.getDiagnosis(), new ArrayList<>(), medicalrecord.getDocId(), rid));
             }else{
-                medicalInfos.add(new MedicalInfo(medicalrecord.getId(), medicalrecord.getCreateTime(), name, medicalrecord.getDiagnosis(), prescriptions, medicalrecord.getDocId()));
+                medicalInfos.add(new MedicalInfo(medicalrecord.getUserId(), medicalrecord.getCreateTime(), name, medicalrecord.getDiagnosis(), prescriptions, medicalrecord.getDocId(), rid));
             }
         }
         return ResultObject.success(medicalInfos);
@@ -447,5 +447,35 @@ public class UserinfoController {
             return ResultObject.error("删除健康记录失败",910);
         }
         return ResultObject.success();
+    }
+
+    /**
+     * 增加病历
+     * @param medicalInfo 病历基本信息
+     * @return 是否修改成功
+     */
+    @RequestMapping(value = "/user/addMedical", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultObject addMedical(@RequestBody MedicalInfo medicalInfo){
+        Integer pid = medicalInfo.getId();
+        Date createTime = medicalInfo.getCreateTime();
+        String doctor = medicalInfo.getDoctor();
+        String diagnosis = medicalInfo.getDiagnosis();
+        List<Prescription> prescriptions = medicalInfo.getPrescriptions();
+        Integer did = medicalInfo.getDid();
+        Medicalrecord medicalrecord = new Medicalrecord(null, null, null, null, null, null, null, diagnosis, null, null, null, pid, did, createTime, 3);
+        medicalrecordService.insertMedicalrecord(medicalrecord);
+        int rid = medicalrecord.getId();
+        if(rid==0){
+            return ResultObject.error("添加病历失败",912);
+        }
+        for(Prescription prescription:prescriptions){
+            prescription.setRecordid(rid);
+            if(medicalrecordService.insertPrescription(prescription)==0){
+                return ResultObject.error("添加处方失败",913);
+            }
+        }
+        medicalInfo.setRid(rid);
+        return ResultObject.success(medicalInfo);
     }
 }

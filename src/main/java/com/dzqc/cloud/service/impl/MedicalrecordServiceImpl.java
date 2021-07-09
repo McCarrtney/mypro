@@ -75,4 +75,14 @@ public class MedicalrecordServiceImpl implements MedicalrecordService {
     public Integer insertPrescription(Prescription prescription) {
         return prescriptionMapper.insert(prescription);
     }
+
+    @Override
+    public Integer updateMedicalRecord(Medicalrecord medicalrecord) {
+        return medicalrecordMapper.updateByPrimaryKeySelective(medicalrecord);
+    }
+
+    @Override
+    public Integer deletePrescription(Integer id) {
+        return prescriptionMapper.deleteByPrimaryKey(id);
+    }
 }
