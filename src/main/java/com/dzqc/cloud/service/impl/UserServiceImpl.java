@@ -6,6 +6,7 @@ import com.dzqc.cloud.service.UserService;
 import com.dzqc.cloud.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -40,9 +41,13 @@ public class UserServiceImpl implements UserService {
         // 创建Spring Security登录token
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(phone, password);
         // 委托Spring Security认证组件执行认证过程
-        Authentication authentication = authenticationManager.authenticate(authenticationToken);
-        // 认证成功，设置上下文
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        try{
+            Authentication authentication = authenticationManager.authenticate(authenticationToken);
+            // 认证成功，设置上下文
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }catch (BadCredentialsException e){
+            return "badcredential";
+        }
         // 生成jwt token
         return jwtTokenUtil.generateToken(phone);
     }

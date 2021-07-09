@@ -145,6 +145,9 @@ public class UserinfoController {
             return ResultObject.error("号码未注册，请先完成注册", 904);
         }else{
             String token = userService.login(phone, password);
+            if(token.equals("badcredential")){
+                return ResultObject.error("密码错误", 914);
+            }
             Date expire = jwtTokenUtil.getExpirationDateFromToken(token);
             TokenInfo tokenInfo = new TokenInfo(token, expire);
             return ResultObject.success(tokenInfo);
