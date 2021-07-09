@@ -88,7 +88,7 @@ public class EmpinfoController {
         }
         Integer did = empinfo.getId();
         List<Medicalrecord> medicalrecords = medicalrecordService.selectByDoctorID(did);
-        if(medicalrecords==null){
+        if(medicalrecords.size()==0){
             return ResultObject.error("该医生无病人", 907);
         }
         List<PatientInfo> patientInfos = new ArrayList<>();
@@ -102,7 +102,7 @@ public class EmpinfoController {
             }
             Integer rid = medicalrecord.getId();
             List<Prescription> prescriptions = medicalrecordService.selectPrescription(rid);
-            if(prescriptions==null){
+            if(prescriptions.size()==0){
                 patientInfos.add(new PatientInfo(medicalrecord.getCreateTime(), name, medicalrecord.getState(), medicalrecord.getDiagnosis(), new ArrayList<>()));
             }else{
                 patientInfos.add(new PatientInfo(medicalrecord.getCreateTime(), name, medicalrecord.getState(), medicalrecord.getDiagnosis(), prescriptions));
@@ -149,7 +149,8 @@ public class EmpinfoController {
         List<Prescription> prescriptions = medicalInfo.getPrescriptions();
         Integer did = medicalInfo.getDid();
         Medicalrecord medicalrecord = new Medicalrecord(null, null, null, null, null, null, null, diagnosis, null, null, null, pid, did, createTime, 3);
-        int rid=medicalrecordService.insertMedicalrecord(medicalrecord);
+        medicalrecordService.insertMedicalrecord(medicalrecord);
+        int rid = medicalrecord.getId();
         if(rid==0){
             return ResultObject.error("添加病历失败",912);
         }

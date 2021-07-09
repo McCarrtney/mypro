@@ -20,6 +20,16 @@ public class HealthRecordServiceImpl implements HealthRecordService {
 
     @Override
     public Integer insertHealthInfo(HealthRecord healthRecord) {
-        return insertHealthInfo(healthRecord);
+        return healthRecordMapper.insert(healthRecord);
+    }
+
+    @Override
+    public Integer deleteHealthInfo(Integer id) {
+        return healthRecordMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public Integer updateHealthInfo(HealthRecord healthRecord) {
+        return healthRecordMapper.updateByPrimaryKeySelective(healthRecord);
     }
 }

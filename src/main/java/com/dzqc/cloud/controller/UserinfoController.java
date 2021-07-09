@@ -306,7 +306,7 @@ public class UserinfoController {
         if(healthRecord==null){
             return ResultObject.error("该用户无健康记录", 905);
         }
-        return ResultObject.success(new UserHealthInfo(healthRecord.getDate(), healthRecord.getHeight(), healthRecord.getWeight(), healthRecord.getHighpressure(), healthRecord.getLowpressure(), healthRecord.getLung(), healthRecord.getUserid()));
+        return ResultObject.success(new UserHealthInfo(healthRecord.getDate(), healthRecord.getHeight(), healthRecord.getWeight(), healthRecord.getHighpressure(), healthRecord.getLowpressure(), healthRecord.getLung(), healthRecord.getId()));
     }
 
     /**
@@ -318,7 +318,7 @@ public class UserinfoController {
     @ResponseBody
     public ResultObject getAllDoctor(@RequestParam(name = "phone", required = true) String phone){
         List<Empinfo> empinfos = empinfoService.selectAll();
-        if(empinfos==null){
+        if(empinfos.size()==0){
             return ResultObject.error("没找到医生", 906);
         }
         List<DoctorBasicInfo> doctorBasicInfos = new ArrayList<>();
@@ -343,7 +343,7 @@ public class UserinfoController {
         }
         Integer uid = userinfo.getId();
         List<Medicalrecord> medicalrecords = medicalrecordService.selectByUserID(uid);
-        if(medicalrecords==null){
+        if(medicalrecords.size()==0){
             return ResultObject.error("该用户无病历", 907);
         }
         List<MedicalInfo> medicalInfos = new ArrayList<>();
@@ -357,7 +357,7 @@ public class UserinfoController {
             }
             Integer rid = medicalrecord.getId();
             List<Prescription> prescriptions = medicalrecordService.selectPrescription(rid);
-            if(prescriptions==null){
+            if(prescriptions.size()==0){
                 medicalInfos.add(new MedicalInfo(medicalrecord.getId(), medicalrecord.getCreateTime(), name, medicalrecord.getDiagnosis(), new ArrayList<>(), medicalrecord.getDocId()));
             }else{
                 medicalInfos.add(new MedicalInfo(medicalrecord.getId(), medicalrecord.getCreateTime(), name, medicalrecord.getDiagnosis(), prescriptions, medicalrecord.getDocId()));
@@ -386,14 +386,14 @@ public class UserinfoController {
     }
 
     /**
-     * 更改用户信息
+     * 添加用户健康信息
      * @param userHealthInfo 用户健康信息
      * @return 是否修改成功
      */
     @RequestMapping(value = "/user/addHealth", method = RequestMethod.POST)
     @ResponseBody
     public ResultObject addHealth(@RequestBody UserHealthInfo userHealthInfo){
-        int uid = userHealthInfo.getUid();
+        Integer uid = userHealthInfo.getUid();
         Date date = userHealthInfo.getDate();
         Double height = userHealthInfo.getHeight();
         Double weight = userHealthInfo.getWeight();
@@ -403,6 +403,43 @@ public class UserinfoController {
         HealthRecord healthRecord = new HealthRecord(null, date, height, weight, highpressure, lowpressure, lung, uid);
         if(healthRecordService.insertHealthInfo(healthRecord)==0){
             return ResultObject.error("添加健康记录失败",910);
+        }
+        return ResultObject.success(healthRecord);
+    }
+
+    /**
+     * 更新用户健康信息
+     * @param userHealthInfo 用户健康信息
+     * @return 是否修改成功
+     */
+    @RequestMapping(value = "/user/changeHealth", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultObject changeHealth(@RequestBody UserHealthInfo userHealthInfo){
+        Integer uid = userHealthInfo.getUid();
+        Date date = userHealthInfo.getDate();
+        Double height = userHealthInfo.getHeight();
+        Double weight = userHealthInfo.getWeight();
+        Double highpressure = userHealthInfo.getHighpressure();
+        Double lowpressure = userHealthInfo.getLowpressure();
+        Double lung = userHealthInfo.getLung();
+        HealthRecord healthRecord = new HealthRecord(uid, date, height, weight, highpressure, lowpressure, lung, null);
+        if(healthRecordService.updateHealthInfo(healthRecord)==0){
+            return ResultObject.error("更新健康记录失败",910);
+        }
+        return ResultObject.success();
+    }
+
+    /**
+     * 更新用户健康信息
+     * @param userHealthInfo 用户健康信息
+     * @return 是否修改成功
+     */
+    @RequestMapping(value = "/user/deleteHealth", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultObject deleteHealth(@RequestBody UserHealthInfo userHealthInfo){
+        Integer uid = userHealthInfo.getUid();
+        if(healthRecordService.deleteHealthInfo(uid)==0){
+            return ResultObject.error("删除健康记录失败",910);
         }
         return ResultObject.success();
     }
