@@ -3,6 +3,8 @@ package com.dzqc.cloud.dao;
 import com.dzqc.cloud.entity.HealthRecord;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface HealthRecordMapper {
     int deleteByPrimaryKey(Integer id);
@@ -17,5 +19,5 @@ public interface HealthRecordMapper {
 
     int updateByPrimaryKey(HealthRecord record);
 
-    HealthRecord selectByUserID(Integer uid);
+    List<HealthRecord> selectByUserID(Integer uid);
 }

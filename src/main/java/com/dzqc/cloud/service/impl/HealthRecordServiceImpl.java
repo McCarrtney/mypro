@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class HealthRecordServiceImpl implements HealthRecordService {
@@ -14,7 +16,7 @@ public class HealthRecordServiceImpl implements HealthRecordService {
     private HealthRecordMapper healthRecordMapper;
 
     @Override
-    public HealthRecord selectByUserID(Integer uid) {
+    public List<HealthRecord> selectByUserID(Integer uid) {
         return healthRecordMapper.selectByUserID(uid);
     }
 

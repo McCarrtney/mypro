@@ -302,11 +302,16 @@ public class UserinfoController {
             return ResultObject.error("用户不存在", 904);
         }
         int uid = userinfo.getId();
-        HealthRecord healthRecord = healthRecordService.selectByUserID(uid);
-        if(healthRecord==null){
+        List<HealthRecord> healthRecords = healthRecordService.selectByUserID(uid);
+        List<UserHealthInfo> userHealthInfos = new ArrayList<>();
+        if(healthRecords.size()==0){
             return ResultObject.error("该用户无健康记录", 905);
         }
-        return ResultObject.success(new UserHealthInfo(healthRecord.getDate(), healthRecord.getHeight(), healthRecord.getWeight(), healthRecord.getHighpressure(), healthRecord.getLowpressure(), healthRecord.getLung(), healthRecord.getId()));
+        for(HealthRecord healthRecord:healthRecords){
+            userHealthInfos.add(new UserHealthInfo(healthRecord.getDate(), healthRecord.getHeight(), healthRecord.getWeight(), healthRecord.getHighpressure(), healthRecord.getLowpressure(), healthRecord.getLung(), healthRecord.getId()));
+        }
+        return ResultObject.success(userHealthInfos);
+        //return ResultObject.success(new UserHealthInfo(healthRecord.getDate(), healthRecord.getHeight(), healthRecord.getWeight(), healthRecord.getHighpressure(), healthRecord.getLowpressure(), healthRecord.getLung(), healthRecord.getId()));
     }
 
     /**
