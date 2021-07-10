@@ -463,7 +463,7 @@ public class UserinfoController {
         String diagnosis = medicalInfo.getDiagnosis();
         List<Prescription> prescriptions = medicalInfo.getPrescriptions();
         Integer did = medicalInfo.getDid();
-        Medicalrecord medicalrecord = new Medicalrecord(null, null, null, null, null, null, null, diagnosis, null, null, null, pid, did, createTime, 3);
+        Medicalrecord medicalrecord = new Medicalrecord(null, null, "default", null, null, null, null, diagnosis, null, null, null, pid, did, createTime, 3);
         medicalrecordService.insertMedicalrecord(medicalrecord);
         int rid = medicalrecord.getId();
         if(rid==0){
