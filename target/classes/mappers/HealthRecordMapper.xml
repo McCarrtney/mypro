@@ -31,7 +31,7 @@
     delete from healthrecord
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.dzqc.cloud.entity.HealthRecord" >
+  <insert id="insert" parameterType="com.dzqc.cloud.entity.HealthRecord" useGeneratedKeys="true" keyProperty="id">
     insert into healthrecord (id, date, height, weight, highpressure, lowpressure, lung, userid)
     values (#{id,jdbcType=INTEGER}, #{date,jdbcType=TIMESTAMP}, #{height,jdbcType=DOUBLE}, 
       #{weight,jdbcType=DOUBLE}, #{highpressure,jdbcType=DOUBLE}, #{lowpressure,jdbcType=DOUBLE}, 

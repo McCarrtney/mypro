@@ -105,7 +105,7 @@ DROP TABLE IF EXISTS `empinfo`;
 CREATE TABLE `empinfo`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
   `username` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '员工姓名',
-  `password` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
+  `password` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '密码',
   `birthday` datetime(0) NOT NULL COMMENT '出生日期',
   `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '联系电话',
   `office` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '住址',
@@ -120,8 +120,7 @@ CREATE TABLE `empinfo`  (
   `update_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `username`(`username`) USING BTREE,
-  UNIQUE INDEX `phone`(`phone`) USING BTREE,
-  UNIQUE INDEX `password`(`password`) USING BTREE
+  UNIQUE INDEX `phone`(`phone`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '员工信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -337,7 +336,6 @@ CREATE TABLE `userinfo`  (
   `state` int(0) NOT NULL COMMENT '启用状态 0.禁用 1.启用',
   `picture` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '头像',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `username`(`username`) USING BTREE,
   UNIQUE INDEX `phone`(`phone`) USING BTREE,
   UNIQUE INDEX `cid`(`cid`) USING BTREE,
   UNIQUE INDEX `bedno`(`bedno`) USING BTREE,

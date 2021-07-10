@@ -34,7 +34,7 @@ url  /user/getHealth?id=""
 
 ```json
 "item":{
-    "uid"
+    "id"  #记录本身的id
 	"date":
 	"height":
 	"weight":
@@ -51,13 +51,42 @@ url  /user/getHealth?id=""
 json数据格式
 
 ```json
-"uid":
+"uid":  用户id
 "date":
 "height":
 "weight":
 "bloodpressure":
 "lung":
 ```
+
+#### 1.2.2删除健康记录
+
+url  /user/deleteHealth
+
+json数据格式
+
+```
+"id": 记录本身id
+```
+
+#### 1.2.3修改健康记录
+
+url  /user/changeHealth
+
+json数据格式
+
+```
+"id":  记录本身id
+"date":
+"height":
+"weight":
+"bloodpressure":
+"lung":
+```
+
+
+
+
 
 
 
@@ -154,11 +183,13 @@ url   /doctor/getPatient?id=""
 "state":	#就诊状态信息：待就诊（已挂号）、就诊中、就诊完成
 "diagnosis":
 "prescription":	#处方信息，同上
+"id":病人id
+"rid":记录本身id
 ```
 
-#### 2.2.1增加病历（医生给病人增加病历，所以动作发出方是医生）
+#### 2.2.1增加病历（医生给病人增加病历，所以动作发出方是医生，这个现在改为用户调用）
 
-url  /doctor/addMedical
+url  /user/addMedical
 
 ```json
 "id":#病人id
@@ -167,6 +198,21 @@ url  /doctor/addMedical
 "diagnosis":
 "prescription":
 "did":#医生id
+增加 "rid":处方id
+```
+
+#### 2.2.2医生修改病历
+
+url  /doctor/changeMedical
+
+```
+"id":#病人id
+"createTime":
+"doctor":
+"diagnosis":
+"prescription":
+"did":#医生id
+增加 "rid":处方id
 ```
 
 

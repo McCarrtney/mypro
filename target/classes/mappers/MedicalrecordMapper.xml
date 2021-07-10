@@ -111,7 +111,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
 
-  <insert id="insert" parameterType="com.dzqc.cloud.entity.Medicalrecord">
+  <insert id="insert" parameterType="com.dzqc.cloud.entity.Medicalrecord" useGeneratedKeys="true" keyProperty="id">
     insert into medicalrecord (id, record_code, phone, 
       department_id, seektime, description, 
       guomishi, diagnosis, prescription, 

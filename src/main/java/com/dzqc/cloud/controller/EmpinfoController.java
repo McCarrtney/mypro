@@ -116,7 +116,7 @@ public class EmpinfoController {
      * @param doctorBasicInfo 医生基本信息
      * @return 是否修改成功
      */
-    @RequestMapping(value = "/doctor/chageInfo", method = RequestMethod.POST)
+    @RequestMapping(value = "/doctor/changeInfo", method = RequestMethod.POST)
     @ResponseBody
     public ResultObject changeInfo(@RequestBody DoctorBasicInfo doctorBasicInfo){
         int id = doctorBasicInfo.getId();

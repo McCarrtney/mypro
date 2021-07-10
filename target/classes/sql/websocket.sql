@@ -56,4 +56,11 @@ CREATE TABLE `user`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = Compact;
 
+DROP TABLE IF EXISTS `friend_relation`;
+CREATE TABLE `friend_relation`  (
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '朋友关系id',
+  `phone_1` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '手机号码1',
+  `phone_2` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '手机号码2',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '朋友关系表' ROW_FORMAT = Compact;
 SET FOREIGN_KEY_CHECKS = 1;

@@ -31,12 +31,12 @@
 
   <select id="selectAll" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
-    from empinfo e join titleinfo  t on e.title_id=t.id where state=1
+    from empinfo e where state=1
   </select>
 
   <select id="selectByPhone" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
-    from empinfo e join titleinfo  t on e.title_id=t.id where t.titlename='医生' and e.phone=#{phone} and state=1
+    from empinfo e where e.phone=#{phone} and state=1
   </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
