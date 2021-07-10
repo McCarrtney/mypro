@@ -8,7 +8,7 @@ import java.util.Date;
 public class UserBasicInfo implements Serializable {
     private Integer id;
     private String username;
-    @JSONField(format="yyyy-MM-dd HH:mm:ss")
+    @JSONField(format="yyyy-MM-dd")
     private Date birthday;
     private String picture;
 

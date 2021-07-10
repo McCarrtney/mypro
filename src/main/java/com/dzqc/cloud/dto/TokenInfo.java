@@ -7,7 +7,6 @@ import java.util.Date;
 
 public class TokenInfo implements Serializable {
     private String token;
-    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date expire;
 
     private static final long serialVersionUID = 1L;

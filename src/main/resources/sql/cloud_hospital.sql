@@ -152,7 +152,7 @@ DROP TABLE IF EXISTS `medicalrecord`;
 CREATE TABLE `medicalrecord`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
   `record_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '病历编号',
-  `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户手机号',
+  `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户手机号',
   `department_id` int(0) NULL DEFAULT NULL COMMENT '就诊科室ID',
   `seektime` datetime(0) NULL DEFAULT NULL COMMENT '就诊日期',
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '病情描述',

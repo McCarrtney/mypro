@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class UserHealthInfo implements Serializable {
-    @JSONField(format="yyyy-MM-dd HH:mm:ss")
+    @JSONField(format="yyyy-MM-dd")
     private Date date;
     private Double height;
     private Double weight;
