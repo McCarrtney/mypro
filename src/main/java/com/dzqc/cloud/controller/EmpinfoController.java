@@ -69,7 +69,7 @@ public class EmpinfoController {
         if(empinfo==null){
             return ResultObject.error("用户不存在", 904);
         }
-        DoctorBasicInfo doctorBasicInfo = new DoctorBasicInfo(empinfo.getId(), empinfo.getBirthday(), empinfo.getUsername(), empinfo.gethospital(), empinfo.getoffice(), empinfo.getComment(), empinfo.getHeadimg(), empinfo.getState(), phone);
+        DoctorBasicInfo doctorBasicInfo = new DoctorBasicInfo(empinfo.getId(), empinfo.getBirthday(), empinfo.getUsername(), empinfo.gethospital(), empinfo.getoffice(), empinfo.getComment(), empinfo.getHeadimg(), empinfo.getState(), empinfo.getPhone());
         return ResultObject.success(doctorBasicInfo);
     }
 
@@ -155,10 +155,12 @@ public class EmpinfoController {
         for(Prescription prescription:prescriptions1){
             medicalrecordService.deletePrescription(prescription.getId());
         }
-        for(Prescription prescription:prescriptions){
-            prescription.setRecordid(rid);
-            if(medicalrecordService.insertPrescription(prescription)==0){
-                return ResultObject.error("添加处方失败",913);
+        if(prescriptions!=null) {
+            for(Prescription prescription:prescriptions){
+                prescription.setRecordid(rid);
+                if(medicalrecordService.insertPrescription(prescription)==0){
+                    return ResultObject.error("添加处方失败",913);
+                }
             }
         }
         return ResultObject.success();

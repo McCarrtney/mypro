@@ -376,7 +376,7 @@ public class UserinfoController {
      * @param userBasicInfo 用户基本信息
      * @return 是否修改成功
      */
-    @RequestMapping(value = "/user/chageInfo", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/changeInfo", method = RequestMethod.POST)
     @ResponseBody
     public ResultObject changeInfo(@RequestBody UserBasicInfo userBasicInfo){
         int id = userBasicInfo.getId();
@@ -469,10 +469,12 @@ public class UserinfoController {
         if(rid==0){
             return ResultObject.error("添加病历失败",912);
         }
-        for(Prescription prescription:prescriptions){
-            prescription.setRecordid(rid);
-            if(medicalrecordService.insertPrescription(prescription)==0){
-                return ResultObject.error("添加处方失败",913);
+        if(prescriptions!=null){
+            for(Prescription prescription:prescriptions){
+                prescription.setRecordid(rid);
+                if(medicalrecordService.insertPrescription(prescription)==0){
+                    return ResultObject.error("添加处方失败",913);
+                }
             }
         }
         medicalInfo.setRid(rid);

@@ -7,4 +7,7 @@ public interface UserService {
     public int insertUser(Userinfo record);
     public String login(String phone, String password);
     public Integer updateUserInfo(Userinfo userinfo);
+
+    //2021/7/10 dp
+    public Userinfo selectByPrimaryKey(Integer id);
 }

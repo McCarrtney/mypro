@@ -25,7 +25,7 @@ public class MedicalrecordServiceImpl implements MedicalrecordService {
     private PrescriptionMapper prescriptionMapper;
 
     public Integer insertMedicalrecord(Medicalrecord medicalrecord){
-            return this.medicalrecordMapper.insertSelective(medicalrecord);
+            return this.medicalrecordMapper.insert(medicalrecord);
     }
 
     @Override

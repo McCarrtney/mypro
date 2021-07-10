@@ -1,19 +1,8 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue'
+import Vuex from 'vuex'
+import modules from './modules'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
+const store = new Vuex.Store({modules})
 
-export default new Vuex.Store({
-    state: {
-        // login: localStorage.getItem("login") || "",
-        // login: true,
-    },
-    // 在state中定义token，如果本地存储中存有token就从本地存储中拿，没有的话就为空
-    mutations: {
-        // setLogin(state, data) {
-        //     state.login = data;
-        //     localStorage.setItem("login", data);
-        // },
-        // 在本地存储中存储token
-    },
-});
+export default store

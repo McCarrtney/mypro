@@ -169,7 +169,6 @@ CREATE TABLE `medicalrecord`  (
   `diagnostictype` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '诊断类型',
   `state` int(0) NULL DEFAULT NULL COMMENT '状态  1 启用  0 禁用',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `phone`(`phone`) USING BTREE,
   UNIQUE INDEX `record_code`(`record_code`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '电子病历信息表' ROW_FORMAT = DYNAMIC;
 
@@ -222,7 +221,7 @@ CREATE TABLE `prescription`  (
   `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '处方ID',
   `userid` int(0) NOT NULL COMMENT '患者id',
   `recordid` int(0) NOT NULL COMMENT '病历id',
-  `medicine` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '药品名字',
+  `medicine` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '药品名字',
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '处方内容',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '处方信息表' ROW_FORMAT = DYNAMIC;

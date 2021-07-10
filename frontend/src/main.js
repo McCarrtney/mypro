@@ -1,23 +1,33 @@
-import Vue from "vue";
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-// 引入element-ui和css文件
-import "./assets/styles/reset.css";
-// 引入样式重置的css样式
-import http from "./http";
-Vue.prototype.$http = http;
-// 引入http文件中定义的http方法，并把http方法挂载为全局的方法
-// http文件中定义了axios拦截器，使得每次请求都携带token，并且定义了请求数据的方法http
+import Vue from 'vue'
+import App from './App.vue'
+import {initRouter} from './router'
+import './theme/index.less'
+import Antd from 'ant-design-vue'
+import Viser from 'viser-vue'
+import '@/mock'
+import store from './store'
+import 'animate.css/source/animate.css'
+import Plugins from '@/plugins'
+import {initI18n} from '@/utils/i18n'
+import bootstrap from '@/bootstrap'
+import 'moment/locale/zh-cn'
+import echarts from 'echarts'
 
-Vue.config.productionTip = false;
-Vue.use(ElementUI);
-// 使用element - ui
+
+const router = initRouter(store.state.setting.asyncRoutes)
+const i18n = initI18n('CN', 'US')
+
+Vue.use(Antd)
+Vue.config.productionTip = false
+Vue.use(Viser)
+Vue.use(Plugins)
+Vue.prototype.$echarts = echarts
+
+bootstrap({router, store, i18n, message: Vue.prototype.$message})
 
 new Vue({
   router,
   store,
-  render: (h) => h(App),
-}).$mount("#app");
+  i18n,
+  render: h => h(App),
+}).$mount('#app')

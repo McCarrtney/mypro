@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -35,15 +36,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = authorizationHead.substring(JWT_PREFIX.length());
             String userName = jwtTokenUtil.getUsernameFromToken(token);
             // 用户名不等于空 并且未认证过 进行登录验证
-            if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = securityService.loadUserByUsername(userName);
-                // 验证token
-                if (jwtTokenUtil.validateToken(token, userDetails)) {
-                    // 验证通过 构建Secruity登录对象
-                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            try{
+                if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    UserDetails userDetails = securityService.loadUserByUsername(userName);
+                    // 验证token
+                    if (jwtTokenUtil.validateToken(token, userDetails)) {
+                        // 验证通过 构建Secruity登录对象
+                        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                    }
                 }
+            }catch (UsernameNotFoundException e){
+                filterChain.doFilter(request, response);
+                return;
             }
         }
         filterChain.doFilter(request, response);

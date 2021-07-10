@@ -28,7 +28,8 @@ public class SecurityServiceImpl implements UserDetailsService {
             ArrayList<String> roleList = new ArrayList<>();
             if(userinfo.getRoleid()==1){
                 roleList.add("ROLE_ADMIN");
-                //roleList.add("ROLE_USER");
+                roleList.add("ROLE_USER");
+                roleList.add("ROLE_DOCTOR");
                 return new SecurityUser(userName, userinfo.getPassword(), roleList, 1);
             }else if(userinfo.getRoleid()==2){
                 roleList.add("ROLE_USER");

@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.dzqc.cloud.dto.MsgInfoL;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -59,6 +61,18 @@ public class MsgInfoController {
         msgInfoMapper.msgRead(id, toid);
         // 更新会话里面的未读消息
         seesionListMapper.delUnReadCount(id, toid);
-        return ResultObject.success(msgInfoList);
+        List<MsgInfoL> msgl=new ArrayList<>();
+        for (MsgInfo mi : msgInfoList) {
+            Userinfo user=userService.selectByPrimaryKey(mi.getFromUserId());
+            MsgInfoL ml=new MsgInfoL(mi);
+            ml.setFromUserPhone(user.getPhone());
+            ml.setFromUserName(user.getUsername());
+
+            user=userService.selectByPrimaryKey(mi.getToUserId());
+            ml.setToUserPhone(user.getPhone());
+            ml.setToUserName(user.getUsername());
+            msgl.add(ml);
+        }
+        return ResultObject.success(msgl);
     }
 }

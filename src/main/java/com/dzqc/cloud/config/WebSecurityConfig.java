@@ -41,10 +41,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(jwtAuthenticationFilter, AnonymousAuthenticationFilter.class)
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .antMatchers("/user/login", "/user/register", "/doctor/login", "/admin/login").permitAll()
+                                // .antMatchers("/user/login", "/user/register", "/doctor/login", "/admin/login").permitAll()
                                 .antMatchers("/admin/**").hasRole("ADMIN")
                                 .antMatchers("/user/**").hasRole("USER")
-                                .antMatchers("/doctor/**").hasRole("DOCTOR"))
+                                .antMatchers("/doctor/**").hasRole("DOCTOR")
+                                .antMatchers("/websocket/**")
+                                .permitAll())
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .anyRequest().authenticated())

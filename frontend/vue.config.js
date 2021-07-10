@@ -1,42 +1,117 @@
+let path = require('path')
+const webpack = require('webpack')
+const ThemeColorReplacer = require('webpack-theme-color-replacer')
+const {getThemeColors, modifyVars} = require('./src/utils/themeUtil')
+const {resolveCss} = require('./src/utils/theme-color-replacer-extend')
+const CompressionWebpackPlugin = require('compression-webpack-plugin')
+
+const productionGzipExtensions = ['js', 'css']
+const isProd = process.env.NODE_ENV === 'production'
+
+const assetsCDN = {
+  // webpack build externals
+  externals: {
+    vue: 'Vue',
+    'vue-router': 'VueRouter',
+    vuex: 'Vuex',
+    axios: 'axios',
+    nprogress: 'NProgress',
+    clipboard: 'ClipboardJS',
+    '@antv/data-set': 'DataSet',
+    'js-cookie': 'Cookies'
+  },
+  css: [
+  ],
+  js: [
+    '//cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js',
+    '//cdn.jsdelivr.net/npm/vue-router@3.3.4/dist/vue-router.min.js',
+    '//cdn.jsdelivr.net/npm/vuex@3.4.0/dist/vuex.min.js',
+    '//cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.min.js',
+    '//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js',
+    '//cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js',
+    '//cdn.jsdelivr.net/npm/@antv/data-set@0.11.4/build/data-set.min.js',
+    '//cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js'
+  ]
+}
+
 module.exports = {
-    // 定义axios的代理，解决跨域问题
-    publicPath: "/",
-    // 部署应用包时的基本 URL
-    outputDir: "dist",
-    //输出文件目录，当运行 vue-cli-service build 时生成的生产环境构建文件的目录
-
-    productionSourceMap: false,
-    devServer: {
-        // 配置webpack-dev-serve的行为 （webpack启动的本地服务器的行为）
-        // 所有devserve的选项都支持
-        host: "0.0.0.0",
-        port: "8080",
-        disableHostCheck: true,
-        //关闭 HOST 检查
-        hotOnly: false,
-        // hot 和 hotOnly 的区别是在某些模块不支持热更新的情况下，前者会自动刷新页面，后者不会刷新页面，而是在控制台输出热更新失败
-		
-        //代理
-        proxy: {
-            //如果你的前端应用和后端 API 服务器没有运行在同一个主机上，你需要在开发环境下将 API 请求代理到 API 服务器
-
-            "/api": {
-                target: "http://39.100.14.147",
-                // target: "http://192.168.10.103",
-
-                changeOrigin: true,
-                //上面的参数列表中有一个changeOrigin参数, 是一个布尔值, 设置为true, 本地就会虚拟一个服务器接收你的请求并代你发送该请求
-                ws: true,
-                //是否代理websockets
-
-                pathRewrite: {
-                    "^/api": "",
-                },
-                //重写路径  需要设置重写的话，要在后面的调用接口前加上/api 来代替target
-            },
-        },
-        watchOptions: {
-            poll: true
-        },
-    },
-};
+  devServer: {
+    // proxy: {
+    //   '/api': { //此处要与 /services/api.js 中的 API_PROXY_PREFIX 值保持一致
+    //     target: process.env.VUE_APP_API_BASE_URL,
+    //     changeOrigin: true,
+    //     pathRewrite: {
+    //       '^/api': ''
+    //     }
+    //   }
+    // }
+  },
+  pluginOptions: {
+    'style-resources-loader': {
+      preProcessor: 'less',
+      patterns: [path.resolve(__dirname, "./src/theme/theme.less")],
+    }
+  },
+  configureWebpack: config => {
+    config.entry.app = ["babel-polyfill", "whatwg-fetch", "./src/main.js"];
+    config.performance = {
+      hints: false
+    }
+    config.plugins.push(
+      new ThemeColorReplacer({
+        fileName: 'css/theme-colors-[contenthash:8].css',
+        matchColors: getThemeColors(),
+        injectCss: true,
+        resolveCss
+      })
+    )
+    // Ignore all locale files of moment.js
+    config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/))
+    // 生产环境下将资源压缩成gzip格式
+    if (isProd) {
+      // add `CompressionWebpack` plugin to webpack plugins
+      config.plugins.push(new CompressionWebpackPlugin({
+        algorithm: 'gzip',
+        test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
+        threshold: 10240,
+        minRatio: 0.8
+      }))
+    }
+    // if prod, add externals
+    if (isProd) {
+      config.externals = assetsCDN.externals
+    }
+  },
+  chainWebpack: config => {
+    // 生产环境下关闭css压缩的 colormin 项，因为此项优化与主题色替换功能冲突
+    if (isProd) {
+      config.plugin('optimize-css')
+        .tap(args => {
+            args[0].cssnanoOptions.preset[1].colormin = false
+          return args
+        })
+    }
+    // 生产环境下使用CDN
+    if (isProd) {
+      config.plugin('html')
+        .tap(args => {
+          args[0].cdn = assetsCDN
+        return args
+      })
+    }
+  },
+  css: {
+    loaderOptions: {
+      less: {
+        lessOptions: {
+          modifyVars: modifyVars(),
+          javascriptEnabled: true
+        }
+      }
+    }
+  },
+  publicPath: process.env.VUE_APP_PUBLIC_PATH,
+  outputDir: 'dist',
+  assetsDir: 'static',
+  productionSourceMap: false
+}

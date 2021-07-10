@@ -1,268 +1,31 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import store from "../store";
+import Vue from 'vue'
+import Router from 'vue-router'
+import {formatRoutes} from '@/utils/routerUtil'
 
-import Login from "../views/login.vue";
-import Enroll from "../views/enroll.vue";
-import Doctor from "../views/doctorSystem.vue";
-import User from "../views/userSystem.vue";
-// 1.引入组件login和doctor
+Vue.use(Router)
 
-import Settings from "../views/settings/index.vue";
-import setInfo from "../views/settings/setinfo.vue";
-import setHealth from "../views/settings/setHealth.vue";
+// 不需要登录拦截的路由配置
+const loginIgnore = {
+  names: ['404', '403'],      //根据路由名称匹配
+  paths: ['/login'],   //根据路由fullPath匹配
+  /**
+   * 判断路由是否包含在该配置中
+   * @param route vue-router 的 route 对象
+   * @returns {boolean}
+   */
+  includes(route) {
+    return this.names.includes(route.name) || this.paths.includes(route.path)
+  }
+}
 
-import Registration from "../views/registration/index.vue";
-import selectDoctor from "../views/registration/selectDoctor.vue";
-import doctorDetail from "../views/registration/doctorDetail.vue";
-
-import Talk from "../views/talk/index.vue";
-import talkSystem from "../views/talk/talkSystem.vue";
-
-import Report from "../views/report/index.vue";
-import checkReport from "../views/report/check_report.vue";
-import addReport from "../views/report/add_report.vue";
-import detailReport from "../views/report/detail_report.vue";
-// 引入报告查询的组件
-
-import Discharge from "../views/discharge/index.vue";
-import dischargeManage from "../views/discharge/discharge_manage.vue";
-import dischargePrint from "../views/discharge/discharge_print.vue";
-// 引入住院管理的组件
-
-import Recipe from "../views/recipe/index.vue";
-import recipeManage from "../views/recipe/recipe.vue";
-// 引入处方管理的组件
-
-import Cottoms from "../views/cottoms/index.vue";
-import cottomsList from "../views/cottoms/cottoms_list.vue";
-import cottomsDetail from "../views/cottoms/cottoms_detail.vue";
-import cottomsAdd from "../views/cottoms/cottoms_add.vue";
-//引入电子病例的组件
-
-import Personal from "../views/personal/index.vue";
-import personalInfo from "../views/personal/personal_info.vue";
-// 引入个人信息的组件
-
-import Counsel from "../views/counsel/index.vue";
-import counselList from "../views/counsel/counsel_list.vue";
-// 引入就诊咨询的组件
-
-import Hospitalization from "../views/hospitalization/index.vue";
-import hospitalizationList from "../views/hospitalization/hospitalization_list.vue";
-import hospitalizationDetail from "../views/hospitalization/hospitalization_detail.vue";
-import hospitalizationAdd from "../views/hospitalization/hospitalization_add.vue";
-// 引入住院管理组件
-
-import Patient from "../views/mypatient/index.vue";
-import patientList from "../views/mypatient/patient_list.vue";
-import patientDetail from "../views/mypatient/patient_detail.vue";
-// 引入我的病人组件
-
-Vue.use(VueRouter);
-
-const routes = [{
-        path: "/",
-        redirect: "/login",
-    },
-    {
-        path: "/login",
-        name: "login",
-        component: Login,
-    },
-    {
-        path: "/enroll",
-        name: "enroll",
-        component: Enroll,
-    },
-    {
-        path: "/user",
-        name: "user",
-        component: User,
-
-        children: [{
-            path: "settings",
-            component: Settings,
-            redirect: "/user/settings/info",
-            children: [{
-                    path: "info",
-                    component: setInfo,
-                },
-                {
-                    path: "health",
-                    component: setHealth,
-                },
-            ],
-        },
-        {
-            path: "registration",
-            component: Registration,
-            redirect: "/user/registration/selectdoctor",
-            children: [{
-                    path: "selectdoctor",
-                    component: selectDoctor,
-                },
-                {
-                    path: "doctordetail",
-                    component: doctorDetail,
-                },
-            ],
-        },
-        {
-            path: "talk",
-            component: Talk,
-            redirect: "/user/talk/talksystem",
-            children: [{
-                    path: "talksystem",
-                    component: talkSystem,
-                },
-                // {
-                //     path: "doctordetail",
-                //     component: doctorDetail,
-                // },
-            ],
-        }
-        ],
-    },
-    {
-        path: "/doctor",
-        name: "doctor",
-        component: Doctor,
-        redirect: "/doctor/cottoms/list",
-        children: [{
-                path: "report",
-                component: Report,
-                redirect: "/doctor/report/check",
-                children: [{
-                        path: "check",
-                        component: checkReport,
-                    },
-                    {
-                        path: "add",
-                        component: addReport,
-                    },
-                    {
-                        path: "detail",
-                        component: detailReport,
-                    },
-                ],
-            },
-            {
-                path: "discharge",
-                component: Discharge,
-                redirect: "/doctor/discharge/manage",
-                children: [{
-                        path: "manage",
-                        component: dischargeManage,
-                    },
-                    {
-                        path: "print",
-                        component: dischargePrint,
-                    },
-                ],
-            },
-            {
-                path: "recipe",
-                component: Recipe,
-                redirect: "/doctor/recipe/list",
-                children: [{
-                    path: "list",
-                    component: recipeManage,
-                }, ],
-            },
-            {
-                path: "cottoms",
-                component: Cottoms,
-                redirect: "/doctor/cottoms/list",
-                children: [{
-                        path: "list",
-                        component: cottomsList,
-                    },
-                    {
-                        path: "add",
-                        component: cottomsAdd,
-                    },
-                    {
-                        path: "detail",
-                        component: cottomsDetail,
-                    },
-                ],
-            },
-            {
-                path: "personal",
-                component: Personal,
-                redirect: "/doctor/personal/info",
-                children: [{
-                    path: "info",
-                    component: personalInfo,
-                }, ],
-            },
-            {
-                path: "counsel",
-                component: Counsel,
-                redirect: "/doctor/counsel/list",
-                children: [{
-                    path: "list",
-                    component: counselList,
-                }, ],
-            },
-            {
-                path: "hospitalization",
-                component: Hospitalization,
-                redirect: "/doctor/hospitalization/list",
-                children: [{
-                        path: "list",
-                        component: hospitalizationList,
-                    },
-                    {
-                        path: "add",
-                        component: hospitalizationAdd,
-                    },
-                    {
-                        path: "detail",
-                        component: hospitalizationDetail,
-                    },
-                ],
-            },
-            {
-                path: "patient",
-                component: Patient,
-                redirect: "/doctor/patient/list",
-                children: [{
-                        path: "list",
-                        component: patientList,
-                    },
-                    {
-                        path: "detail/:id/:from",
-                        component: patientDetail,
-                    },
-                ],
-            },
-        ],
-    },
-    // 2.在路由规则中定义路径和对应的组件，并把首页重定向到登录页面
-];
-
-const router = new VueRouter({
-    mode: "history",
-    base: process.env.BASE_URL,
-    routes,
-});
-const routerPush = VueRouter.prototype.push;
-VueRouter.prototype.push = function push(location) {
-    return routerPush.call(this, location).catch((error) => error);
-};
-
-// router.beforeEach((to, from, next) => {
-//     // 检查前端路由 要to 的 path 是否需要进行权限认证,
-//     //
-//     console.log(to.path);
-//     if (to.path.startsWith("/doctor")) {
-//         if (!store.state.login) {
-//             router.push({ path: "/login" });
-//             return;
-//         }
-//     }
-//     next();
-// });
-export default router;
+/**
+ * 初始化路由实例
+ * @param isAsync 是否异步路由模式
+ * @returns {VueRouter}
+ */
+function initRouter(isAsync) {
+  const options = isAsync ? require('./async/config.async').default : require('./config').default
+  formatRoutes(options.routes)
+  return new Router(options)
+}
+export {loginIgnore, initRouter}

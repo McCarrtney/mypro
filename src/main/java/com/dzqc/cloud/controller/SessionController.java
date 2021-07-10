@@ -4,6 +4,7 @@ import com.dzqc.cloud.common.ResultObject;
 import com.dzqc.cloud.common.bean.AjaxResult;
 import com.dzqc.cloud.dao.SeesionListMapper;
 import com.dzqc.cloud.dao.UserMapper;
+import com.dzqc.cloud.dto.SessionFriend;
 import com.dzqc.cloud.entity.SessionList;
 import com.dzqc.cloud.entity.User;
 import com.dzqc.cloud.entity.Userinfo;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -35,7 +37,17 @@ public class SessionController {
         Userinfo user=userService.selectByPhone(phone);
         Integer id=user.getId();
         List<SessionList> sessionLists = seesionListMapper.selectByUserId(id);
-        return  ResultObject.success(sessionLists);
+        List<SessionFriend> friends=new ArrayList<>();
+        for (SessionList sess : sessionLists) {
+            Userinfo toUser=userService.selectByPrimaryKey(sess.getToUserId());
+            SessionFriend sf=new SessionFriend();
+            sf.setId(toUser.getId());
+            sf.setUsername(toUser.getUsername());
+            sf.setPhone(toUser.getPhone());
+            sf.setUnread(sess.getUnReadCount());
+            friends.add(sf);
+        }
+        return  ResultObject.success(friends);
     }
 
     // 可建立会话的用户

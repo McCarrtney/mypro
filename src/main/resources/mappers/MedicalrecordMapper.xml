@@ -119,7 +119,7 @@
     values (#{id,jdbcType=INTEGER}, #{recordCode,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{departmentId,jdbcType=INTEGER}, #{seektime,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR}, 
       #{guomishi,jdbcType=VARCHAR}, #{diagnosis,jdbcType=VARCHAR}, #{prescription,jdbcType=VARCHAR}, 
-      #{comment,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},#{user_id},#{doc_id},#{createTime,jdbcType=TIMESTAMP},#{state,jdbcType=INTEGER})
+      #{comment,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},#{userId, jdbcType=INTEGER},#{docId, jdbcType=INTEGER},#{createTime,jdbcType=TIMESTAMP},#{state,jdbcType=INTEGER})
   </insert>
 
   <insert id="insertSelective" parameterType="com.dzqc.cloud.entity.Medicalrecord">
@@ -266,10 +266,10 @@
         doc_id = #{docId,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
-        createTime = #{docId,jdbcType=VARCHAR},
+        createTime = #{createTime,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
-        state = #{docId,jdbcType=INTEGER},
+        state = #{state,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
