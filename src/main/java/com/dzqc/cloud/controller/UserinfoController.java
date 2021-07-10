@@ -328,7 +328,7 @@ public class UserinfoController {
         }
         List<DoctorBasicInfo> doctorBasicInfos = new ArrayList<>();
         for(Empinfo empinfo:empinfos){
-            doctorBasicInfos.add(new DoctorBasicInfo(empinfo.getId(), empinfo.getBirthday(), empinfo.getUsername(), empinfo.gethospital(), empinfo.getoffice(), empinfo.getComment(), empinfo.getHeadimg(), empinfo.getState()));
+            doctorBasicInfos.add(new DoctorBasicInfo(empinfo.getId(), empinfo.getBirthday(), empinfo.getUsername(), empinfo.gethospital(), empinfo.getoffice(), empinfo.getComment(), empinfo.getHeadimg(), empinfo.getState(), empinfo.getPhone()));
         }
         return ResultObject.success(doctorBasicInfos);
     }

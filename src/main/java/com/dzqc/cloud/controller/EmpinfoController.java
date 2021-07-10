@@ -69,7 +69,7 @@ public class EmpinfoController {
         if(empinfo==null){
             return ResultObject.error("用户不存在", 904);
         }
-        DoctorBasicInfo doctorBasicInfo = new DoctorBasicInfo(empinfo.getId(), empinfo.getBirthday(), empinfo.getUsername(), empinfo.gethospital(), empinfo.getoffice(), empinfo.getComment(), empinfo.getHeadimg(), empinfo.getState());
+        DoctorBasicInfo doctorBasicInfo = new DoctorBasicInfo(empinfo.getId(), empinfo.getBirthday(), empinfo.getUsername(), empinfo.gethospital(), empinfo.getoffice(), empinfo.getComment(), empinfo.getHeadimg(), empinfo.getState(), phone);
         return ResultObject.success(doctorBasicInfo);
     }
 
@@ -91,7 +91,7 @@ public class EmpinfoController {
         if(medicalrecords.size()==0){
             return ResultObject.error("该医生无病人", 907);
         }
-        List<PatientInfo> patientInfos = new ArrayList<>();
+        List<MedicalInfo> medicalInfos = new ArrayList<>();
         for(Medicalrecord medicalrecord:medicalrecords){
             String name;
             Userinfo userinfo = medicalrecord.getUserinfo();
@@ -103,12 +103,12 @@ public class EmpinfoController {
             Integer rid = medicalrecord.getId();
             List<Prescription> prescriptions = medicalrecordService.selectPrescription(rid);
             if(prescriptions.size()==0){
-                patientInfos.add(new PatientInfo(medicalrecord.getCreateTime(), name, medicalrecord.getState(), medicalrecord.getDiagnosis(), new ArrayList<>()));
+                medicalInfos.add(new MedicalInfo(medicalrecord.getUserId(), medicalrecord.getCreateTime(), name, medicalrecord.getDiagnosis(), new ArrayList<>(), medicalrecord.getDocId(), medicalrecord.getId()));
             }else{
-                patientInfos.add(new PatientInfo(medicalrecord.getCreateTime(), name, medicalrecord.getState(), medicalrecord.getDiagnosis(), prescriptions));
+                medicalInfos.add(new MedicalInfo(medicalrecord.getUserId(), medicalrecord.getCreateTime(), name, medicalrecord.getDiagnosis(), prescriptions, medicalrecord.getDocId(), medicalrecord.getId()));
             }
         }
-        return ResultObject.success(patientInfos);
+        return ResultObject.success(medicalInfos);
     }
 
     /**

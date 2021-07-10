@@ -12,10 +12,11 @@ public class DoctorBasicInfo implements Serializable{
     private String comment;
     private String headimg;
     private Integer state;
+    private String phone;
 
     private static final long serialVersionUID = 1L;
 
-    public DoctorBasicInfo(Integer id, Date age, String username, String hospital, String office, String comment, String headimg, Integer state) {
+    public DoctorBasicInfo(Integer id, Date age, String username, String hospital, String office, String comment, String headimg, Integer state, String phone) {
         this.id = id;
         this.age = age;
         this.username = username;
@@ -24,6 +25,7 @@ public class DoctorBasicInfo implements Serializable{
         this.comment = comment;
         this.headimg = headimg;
         this.state = state;
+        this.phone = phone;
     }
 
     public Date getAge() {
@@ -88,5 +90,13 @@ public class DoctorBasicInfo implements Serializable{
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
