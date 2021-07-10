@@ -1,6 +1,8 @@
 package com.dzqc.cloud.dto;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.dzqc.cloud.entity.Prescription;
+
 
 import java.io.Serializable;
 import java.util.Date;
@@ -8,7 +10,10 @@ import java.util.List;
 
 public class MedicalInfo implements Serializable {
     private Integer id;
+
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
+
     private String doctor;
     private String diagnosis;
     private List<Prescription> prescriptions;

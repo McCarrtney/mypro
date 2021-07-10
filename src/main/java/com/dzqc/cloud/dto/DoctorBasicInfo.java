@@ -1,10 +1,13 @@
 package com.dzqc.cloud.dto;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class DoctorBasicInfo implements Serializable{
     private Integer id;
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date age;
     private String username;
     private String hospital;
